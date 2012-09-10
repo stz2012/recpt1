@@ -402,18 +402,18 @@ reader_func(void *p)
             splitbuf.size = 0;
 
             while(buf.size) {
-                /* $BJ,N%BP>](BPID$B$NCj=P(B */
+                /* 分離対象PIDの抽出 */
                 if(split_select_finish != TSS_SUCCESS) {
                     split_select_finish = split_select(splitter, &buf);
                     if(split_select_finish == TSS_NULL) {
-                        /* malloc$B%(%i!<H/@8(B */
+                        /* mallocエラー発生 */
                         fprintf(stderr, "split_select malloc failed\n");
                         use_splitter = FALSE;
                         goto fin;
                     }
                     else if(split_select_finish != TSS_SUCCESS) {
-                        /* $BJ,N%BP>](BPID$B$,40A4$KCj=P$G$-$k$^$G=PNO$7$J$$(B
-                         * 1$BICDxEYM>M5$r8+$k$H$$$$$+$b(B
+                        /* 分離対象PIDが完全に抽出できるまで出力しない
+                         * 1秒程度余裕を見るといいかも
                          */
                         time_t cur_time;
                         time(&cur_time);
@@ -424,7 +424,7 @@ reader_func(void *p)
                         break;
                     }
                 }
-                /* $BJ,N%BP>]0J30$r$U$k$$Mn$H$9(B */
+                /* 分離対象以外をふるい落とす */
                 code = split_ts(splitter, &buf, &splitbuf);
                 if(code != TSS_SUCCESS) {
                     fprintf(stderr, "split_ts failed\n");
@@ -496,7 +496,7 @@ reader_func(void *p)
             }
 
             if(use_splitter) {
-                /* $BJ,N%BP>]0J30$r$U$k$$Mn$H$9(B */
+                /* 分離対象以外をふるい落とす */
                 code = split_ts(splitter, &buf, &splitbuf);
                 if(code != TSS_SUCCESS) {
                     break;
@@ -592,35 +592,35 @@ show_channels(void)
     else
         fprintf(stderr, "13-62: Terrestrial Channels\n");
 
-    fprintf(stderr, "BS01_0: BS$BD+F|(B\n");
+    fprintf(stderr, "BS01_0: BS朝日\n");
     fprintf(stderr, "BS01_1: BS-TBS\n");
-    fprintf(stderr, "BS03_0: WOWOW$B%W%i%$%`(B\n");
-    fprintf(stderr, "BS03_1: BS$B%8%c%Q%s(B\n");
-    fprintf(stderr, "BS05_0: WOWOW$B%i%$%V(B\n");
-    fprintf(stderr, "BS05_1: WOWOW$B%7%M%^(B\n");
-    fprintf(stderr, "BS07_0: $B%9%?!<%A%c%s%M%k(B2/3\n");
-    fprintf(stderr, "BS07_1: BS$B%"%K%^%C%/%9(B\n");
-    fprintf(stderr, "BS07_2: $B%G%#%:%K!<%A%c%s%M%k(B\n");
+    fprintf(stderr, "BS03_0: WOWOWプライム\n");
+    fprintf(stderr, "BS03_1: BSジャパン\n");
+    fprintf(stderr, "BS05_0: WOWOWライブ\n");
+    fprintf(stderr, "BS05_1: WOWOWシネマ\n");
+    fprintf(stderr, "BS07_0: スターチャンネル2/3\n");
+    fprintf(stderr, "BS07_1: BSアニマックス\n");
+    fprintf(stderr, "BS07_2: ディズニーチャンネル\n");
     fprintf(stderr, "BS09_0: BS11\n");
-    fprintf(stderr, "BS09_1: $B%9%?!<%A%c%s%M%k(B1\n");
+    fprintf(stderr, "BS09_1: スターチャンネル1\n");
     fprintf(stderr, "BS09_2: TwellV\n");
     fprintf(stderr, "BS11_0: FOX bs238\n");
-    fprintf(stderr, "BS11_1: BS$B%9%+%Q!<(B!\n");
-    fprintf(stderr, "BS11_2: $BJ|AwBg3X(B\n");
-    fprintf(stderr, "BS13_0: BS$BF|%F%l(B\n");
-    fprintf(stderr, "BS13_1: BS$B%U%8(B\n");
+    fprintf(stderr, "BS11_1: BSスカパー!\n");
+    fprintf(stderr, "BS11_2: 放送大学\n");
+    fprintf(stderr, "BS13_0: BS日テレ\n");
+    fprintf(stderr, "BS13_1: BSフジ\n");
     fprintf(stderr, "BS15_0: NHK BS1\n");
-    fprintf(stderr, "BS15_1: NHK BS$B%W%l%_%"%`(B\n");
-    fprintf(stderr, "BS17_0: $BCO%G%8Fq;kD0(B1(NHK/NHK-E/CX)\n");
-    fprintf(stderr, "BS17_1: $BCO%G%8Fq;kD0(B2(NTV/TBS/EX/TX)\n");
-    fprintf(stderr, "BS19_0: $B%0%j!<%s%A%c%s%M%k(B\n");
+    fprintf(stderr, "BS15_1: NHK BSプレミアム\n");
+    fprintf(stderr, "BS17_0: 地デジ難視聴1(NHK/NHK-E/CX)\n");
+    fprintf(stderr, "BS17_1: 地デジ難視聴2(NTV/TBS/EX/TX)\n");
+    fprintf(stderr, "BS19_0: グリーンチャンネル\n");
     fprintf(stderr, "BS19_1: J SPORTS 1\n");
     fprintf(stderr, "BS19_2: J SPORTS 2\n");
     fprintf(stderr, "BS21_0: IMAGICA BS\n");
     fprintf(stderr, "BS21_1: J SPORTS 3\n");
     fprintf(stderr, "BS21_2: J SPORTS 4\n");
-    fprintf(stderr, "BS23_0: BS$BD`$j%S%8%g%s(B\n");
-    fprintf(stderr, "BS23_1: $BF|K\1G2h@lLg%A%c%s%M%k(B\n");
+    fprintf(stderr, "BS23_0: BS釣りビジョン\n");
+    fprintf(stderr, "BS23_1: 日本映画専門チャンネル\n");
     fprintf(stderr, "BS23_2: D-Life\n");
     fprintf(stderr, "C13-C63: CATV Channels\n");
     fprintf(stderr, "CS2-CS24: CS Channels\n");
