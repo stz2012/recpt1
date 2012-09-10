@@ -1,0 +1,61 @@
+DESTDIR =
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+CC = @CC@
+
+TARGET = recpt1
+TARGET2 = recpt1ctl
+TARGET3 = checksignal
+TARGETS = $(TARGET) $(TARGET2) $(TARGET3)
+RELEASE_VERSION = "7662d0ecd74b_with_http_server_RC4 by foobar"
+
+CPPFLAGS = -I../driver -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+CFLAGS   = -O2 -g -pthread
+
+LIBS     = @LIBS@
+LIBS2    =
+LIBS3    = -lpthread -lm
+LDFLAGS  =
+
+OBJS  = recpt1.o decoder.o mkpath.o tssplitter_lite.o
+OBJS2 = recpt1ctl.o
+OBJS3 = checksignal.o
+OBJALL = $(OBJS) $(OBJS2) $(OBJS3)
+DEPEND = .deps
+
+all: $(TARGETS)
+
+clean:
+	rm -f $(OBJALL) $(TARGETS) $(DEPEND) version.h
+
+distclean: clean
+	rm -f Makefile config.h config.log config.status
+
+maintainer-clean: distclean
+	rm -fr configure config.h.in aclocal.m4 autom4te.cache *~
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+
+$(TARGET2): $(OBJS2)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS2) $(LIBS2)
+
+$(TARGET3): $(OBJS3)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS3) $(LIBS3)
+
+$(DEPEND): version.h
+	$(CC) -MM $(OBJS:.o=.c) $(OBJS2:.o=.c) $(CPPFLAGS) > $@
+
+version.h:
+	revh=`hg parents --template 'const char *version = "r{rev}:{node|short} ({date|shortdate})";\n' 2>/dev/null`; \
+	if [ -n "$$revh" ] ; then \
+		echo "$$revh" > $@; \
+	else \
+		echo "const char *version = \"$(RELEASE_VERSION)\";" > $@; \
+	fi
+
+install: $(TARGET)
+	install -m 755 $(TARGETS) $(DESTDIR)$(bindir)
+
+-include .deps
