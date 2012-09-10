@@ -160,6 +160,9 @@ splitter* split_startup(
 	sp->pmt_retain = -1;
 	sp->pmt_counter = 0;
 
+	memset(sp->section_remain, 0U, sizeof(sp->section_remain));
+	memset(sp->packet_seq, 0U, sizeof(sp->packet_seq));
+
 	return sp;
 }
 
@@ -238,9 +241,10 @@ static int ReadTs(splitter *sp, ARIB_STD_B25_BUFFER *sbuf)
 		 * 残すべきPCR/AUDIO/VIDEO PIDを取得する */
 		if(sp->pmt_pids[pid] == 1) {
 			/* この中にはPMT毎に一度しか入らないようにしておく */
-			AnalyzePmt(sp, sbuf->data + index);
-			sp->pmt_pids[pid]++;
-			sp->pmt_counter += 1;
+			if (AnalyzePmt(sp, sbuf->data + index) == TSS_SUCCESS) {
+				sp->pmt_counter += 1;
+				sp->pmt_pids[pid]++;
+			}
 		}
 		/* 録画する全てのPMTについて、中にあるPCR/AUDIO/VIDEOのPIDを
 		 * 得る */
@@ -601,37 +605,53 @@ static int AnalyzePmt(splitter *sp, unsigned char *buf)
 	unsigned char N;
 	int pcr;
 	int epid;
+	int pid;				// PMTのPID
+	int payload_offset;		// ペイロード開始オフセット
 
-	Nall = ((buf[6] & 0x0F) << 4) + buf[7];
-	if(Nall > LENGTH_PACKET)
-		Nall = LENGTH_PACKET - 8; /* xxx workaround --yaz */
+	pid = GetPid(&buf[1]);		// PMTのPID
+	if (buf[1] & 0x40) {		// PES開始インジケータ
+		sp->section_remain[pid] = ((buf[6] & 0x0F) << 8) + buf[7] + 3;	// セクションサイズ取得(ヘッダ込)
+		payload_offset = 5;
 
-	// PCR
-	pcr = GetPid(&buf[13]);
-	sp->pids[pcr] = 1;
+		// PCR, 番組情報が先頭からはみ出ることはないだろう
+		// PCR
+		pcr = GetPid(&buf[payload_offset + 8]);
+		sp->pids[pcr] = 1;
 
-	N = ((buf[15] & 0x0F) << 4) + buf[16] + 16 + 1;
+		// ECM
+		N = ((buf[payload_offset + 10] & 0x0F) << 8) + buf[payload_offset + 11] + payload_offset + 12;	// ES情報開始点
 
-	// ECM
-	int p = 17;
-	while(p < N) {
-		uint32_t ca_pid;
-		uint32_t tag;
-		uint32_t len;
+		int p = payload_offset + 12;
+		while(p < N) {
+			uint32_t ca_pid;
+			uint32_t tag;
+			uint32_t len;
 
-		tag = buf[p];
-		len = buf[p+1];
-		p += 2;
+			tag = buf[p];
+			len = buf[p+1];
+			p += 2;
 
-		if(tag == 0x09 && len >= 4 && p+len <= N) {
-			ca_pid = ((buf[p+2] << 8) | buf[p+3]) & 0x1fff;
-			sp->pids[ca_pid] = 1;
+			if(tag == 0x09 && len >= 4 && p+len <= N) {
+				ca_pid = ((buf[p+2] << 8) | buf[p+3]) & 0x1fff;
+				sp->pids[ca_pid] = 1;
+			}
+			p += len;
 		}
-		p += len;
 	}
+	else {
+		if (sp->section_remain[pid] == 0) return TSS_ERROR;								// セクション先頭が飛んでいる
+		if ((buf[3] & 0x0F) != ((sp->packet_seq[pid] + 1) & 0x0F)) return TSS_ERROR;	// パケットカウンタが飛んだ
+		payload_offset = 4;
+		N = payload_offset;
+	}
+	sp->packet_seq[pid] = buf[3] & 0x0F;				// 巡回カウンタ
+	
+	Nall = sp->section_remain[pid];
+	if(Nall > LENGTH_PACKET - payload_offset)
+		Nall = LENGTH_PACKET - payload_offset;
 
 	// ES PID
-	while (N < Nall + 8 - 4)
+	while (N <= Nall + payload_offset - 5)
 	{
 		// ストリーム種別が 0x0D（type D）は出力対象外
 		if (0x0D != buf[N])
@@ -640,7 +660,7 @@ static int AnalyzePmt(splitter *sp, unsigned char *buf)
 
 			sp->pids[epid] = 1;
 		}
-		N += 4 + (((buf[N + 3]) & 0x0F) << 4) + buf[N + 4] + 1;
+		N += 5 + (((buf[N + 3]) & 0x0F) << 8) + buf[N + 4];
 	}
 
 	return TSS_SUCCESS;

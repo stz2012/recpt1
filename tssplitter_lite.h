@@ -35,6 +35,7 @@
 #define TSS_NULL			(-2)
 #define LENGTH_PAT_HEADER	(12)
 #define C_CHAR_COMMA		','
+#define SECTION_CONTINUE	(1)
 
 /**
  * splitter構造体
@@ -49,6 +50,8 @@ typedef struct splitter {
 	int pmt_counter;
 	int avail_pmts[MAX_SERVICES];
 	int num_pmts;
+	uint16_t section_remain[MAX_PID];	// セクション残りバイト数
+	uint8_t packet_seq[MAX_PID];	// 巡回カウンタ
 } splitter;
 
 /* b25 decoder would hoard up large chank */
