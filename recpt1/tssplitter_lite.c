@@ -663,7 +663,12 @@ static int AnalyzePmt(splitter *sp, unsigned char *buf)
 		N += 5 + (((buf[N + 3]) & 0x0F) << 8) + buf[N + 4];
 	}
 
-	return TSS_SUCCESS;
+	sp->section_remain[pid] -= Nall;
+
+	if (sp->section_remain[pid] > 0)
+		return SECTION_CONTINUE;
+	else
+		return TSS_SUCCESS;
 }
 
 /**
