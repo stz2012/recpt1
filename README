@@ -3,7 +3,10 @@ Linux用PT1/PT2/PT3録画プログラムです。
 こちらは亜流版ですのでご注意下さい。
 
 本家はこちら→ http://hg.honeyplanet.jp/pt1/
-※ドライバー部分は本家やその他分家のものをお使い下さい。
+※ドライバー部分は本家やその他分家（↓）のものをお使い下さい。
+　PT1/PT2：http://sourceforge.jp/projects/pt1dvr/
+　PT3：https://github.com/m-tsudo/pt3
+※libarib25はこちら→ https://github.com/stz2012/libarib25
 
 cd recpt1 && chmod 755 autogen.sh
 ./autogen.sh
