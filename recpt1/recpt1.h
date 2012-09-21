@@ -7,7 +7,7 @@
 #define CHTYPE_SATELLITE    0        /* satellite digital */
 #define CHTYPE_GROUND       1        /* terrestrial digital */
 #define MAX_QUEUE           8192
-#define MAX_READ_SIZE       (188 * 87) /* 188*87=16356 splitter¤¬188¥¢¥é¥¤¥á¥ó¥È¤ò´üÂÔ¤·¤Æ¤¤¤ë¤Î¤Ç¤³¤Î¿ô»ú¤È¤¹¤ë*/
+#define MAX_READ_SIZE       (188 * 87) /* 188*87=16356 splitterãŒ188ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆã‚’æœŸå¾…ã—ã¦ã„ã‚‹ã®ã§ã“ã®æ•°å­—ã¨ã™ã‚‹*/
 #define WRITE_SIZE          (1024 * 1024 * 2)
 #define TRUE                1
 #define FALSE               0
@@ -18,22 +18,22 @@ typedef struct _BUFSZ {
 } BUFSZ;
 
 typedef struct _QUEUE_T {
-    unsigned int in;        // ¼¡¤ËÆş¤ì¤ë¥¤¥ó¥Ç¥Ã¥¯¥¹
-    unsigned int out;        // ¼¡¤Ë½Ğ¤¹¥¤¥ó¥Ç¥Ã¥¯¥¹
-    unsigned int size;        // ¥­¥å¡¼¤Î¥µ¥¤¥º
-    unsigned int num_avail;    // Ëş¥¿¥ó¤Ë¤Ê¤ë¤È 0 ¤Ë¤Ê¤ë
-    unsigned int num_used;    // ¶õ¤Ã¤İ¤Ë¤Ê¤ë¤È 0 ¤Ë¤Ê¤ë
+    unsigned int in;        // æ¬¡ã«å…¥ã‚Œã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+    unsigned int out;        // æ¬¡ã«å‡ºã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+    unsigned int size;        // ã‚­ãƒ¥ãƒ¼ã®ã‚µã‚¤ã‚º
+    unsigned int num_avail;    // æº€ã‚¿ãƒ³ã«ãªã‚‹ã¨ 0 ã«ãªã‚‹
+    unsigned int num_used;    // ç©ºã£ã½ã«ãªã‚‹ã¨ 0 ã«ãªã‚‹
     pthread_mutex_t mutex;
-    pthread_cond_t cond_avail;    // ¥Ç¡¼¥¿¤¬Ëş¥¿¥ó¤Î¤È¤­¤ËÂÔ¤Ä¤¿¤á¤Î cond
-    pthread_cond_t cond_used;    // ¥Ç¡¼¥¿¤¬¶õ¤Î¤È¤­¤ËÂÔ¤Ä¤¿¤á¤Î cond
-    BUFSZ *buffer[1];    // ¥Ğ¥Ã¥Õ¥¡¥İ¥¤¥ó¥¿
+    pthread_cond_t cond_avail;    // ãƒ‡ãƒ¼ã‚¿ãŒæº€ã‚¿ãƒ³ã®ã¨ãã«å¾…ã¤ãŸã‚ã® cond
+    pthread_cond_t cond_used;    // ãƒ‡ãƒ¼ã‚¿ãŒç©ºã®ã¨ãã«å¾…ã¤ãŸã‚ã® cond
+    BUFSZ *buffer[1];    // ãƒãƒƒãƒ•ã‚¡ãƒã‚¤ãƒ³ã‚¿
 } QUEUE_T;
 
 typedef struct _ISDB_T_FREQ_CONV_TABLE {
-    int set_freq;    // ¼Âºİ¤Ëioctl()¤ò¹Ô¤¦ÃÍ
-    int type;        // ¥Á¥ã¥ó¥Í¥ë¥¿¥¤¥×
-    int add_freq;    // ÄÉ²Ã¤¹¤ë¼şÇÈ¿ô(BS/CS¤Î¾ì¹ç¤Ï¥¹¥í¥Ã¥ÈÈÖ¹æ)
-    char *parm_freq;    // ¥Ñ¥é¥á¡¼¥¿¤Ç¼õ¤±¤ëÃÍ
+    int set_freq;    // å®Ÿéš›ã«ioctl()ã‚’è¡Œã†å€¤
+    int type;        // ãƒãƒ£ãƒ³ãƒãƒ«ã‚¿ã‚¤ãƒ—
+    int add_freq;    // è¿½åŠ ã™ã‚‹å‘¨æ³¢æ•°(BS/CSã®å ´åˆã¯ã‚¹ãƒ­ãƒƒãƒˆç•ªå·)
+    char *parm_freq;    // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§å—ã‘ã‚‹å€¤
 } ISDB_T_FREQ_CONV_TABLE;
 
 #endif

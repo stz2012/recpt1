@@ -38,7 +38,7 @@
 #define SECTION_CONTINUE	(1)
 
 /**
- * splitter¹½Â¤ÂÎ
+ * splitteræ§‹é€ ä½“
  */
 typedef struct splitter {
 	unsigned char	pids[MAX_PID];
@@ -50,8 +50,8 @@ typedef struct splitter {
 	int pmt_counter;
 	int avail_pmts[MAX_SERVICES];
 	int num_pmts;
-	uint16_t section_remain[MAX_PID];	// ¥»¥¯¥·¥ç¥ó»Ä¤ê¥Ğ¥¤¥È¿ô
-	uint8_t packet_seq[MAX_PID];	// ½ä²ó¥«¥¦¥ó¥¿
+	uint16_t section_remain[MAX_PID];	// ã‚»ã‚¯ã‚·ãƒ§ãƒ³æ®‹ã‚Šãƒã‚¤ãƒˆæ•°
+	uint8_t packet_seq[MAX_PID];	// å·¡å›ã‚«ã‚¦ãƒ³ã‚¿
 } splitter;
 
 /* b25 decoder would hoard up large chank */

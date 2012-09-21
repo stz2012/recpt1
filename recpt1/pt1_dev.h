@@ -10,7 +10,11 @@ char *bsdev[NUM_BSDEV] = {
     "/dev/pt1video9",
     "/dev/pt1video8",
     "/dev/pt1video13",
-    "/dev/pt1video12"
+    "/dev/pt1video12",
+    "/dev/pt3video1",
+    "/dev/pt3video0",
+    "/dev/pt3video5",
+    "/dev/pt3video4"
 };
 char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pt1video2",
@@ -20,135 +24,139 @@ char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pt1video10",
     "/dev/pt1video11",
     "/dev/pt1video14",
-    "/dev/pt1video15"
+    "/dev/pt1video15",
+    "/dev/pt3video2",
+    "/dev/pt3video3",
+    "/dev/pt3video6",
+    "/dev/pt3video7"
 };
 
-// ÊÑ´¹¥Æ¡¼¥Ö¥ë(ISDB-TÍÑ)
-// ¼ÂºÝ¤Ëioctl()¤ò¹Ô¤¦ÃÍ¤ÎÉôÊ¬¤ÏREADME¤ò»²¾È¤Î»ö¡£
-// BS/CS¤ÎÀßÄêÃÍ¤ª¤è¤Ó¥¹¥í¥Ã¥ÈÈÖ¹æ¤Ï
-// http://www5e.biglobe.ne.jp/~kazu_f/digital-sat/index.html¤è¤ê¼èÆÀ¡£
+// å¤‰æ›ãƒ†ãƒ¼ãƒ–ãƒ«(ISDB-Tç”¨)
+// å®Ÿéš›ã«ioctl()ã‚’è¡Œã†å€¤ã®éƒ¨åˆ†ã¯READMEã‚’å‚ç…§ã®äº‹ã€‚
+// BS/CSã®è¨­å®šå€¤ãŠã‚ˆã³ã‚¹ãƒ­ãƒƒãƒˆç•ªå·ã¯
+// http://www5e.biglobe.ne.jp/~kazu_f/digital-sat/index.htmlã‚ˆã‚Šå–å¾—ã€‚
 //
 
 ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
-    {   0, CHTYPE_SATELLITE, 0, "151"},  /* 151ch¡§BSÄ«Æü */
-    {   0, CHTYPE_SATELLITE, 1, "161"},  /* 161ch¡§BS-TBS */
-    {   1, CHTYPE_SATELLITE, 0, "191"},  /* 191ch¡§WOWOW */
-    {   1, CHTYPE_SATELLITE, 1, "171"},  /* 171ch¡§BS¥¸¥ã¥Ñ¥ó */
-    {   2, CHTYPE_SATELLITE, 0, "192"},  /* 192ch¡§WOWOW¥é¥¤¥Ö */
-    {   2, CHTYPE_SATELLITE, 1, "193"},  /* 193ch¡§WOWOW¥·¥Í¥Þ */
-    {   3, CHTYPE_SATELLITE, 0, "201"},  /* 201ch¡§¥¹¥¿¡¼¡¦¥Á¥ã¥ó¥Í¥ë2 */
-    {   3, CHTYPE_SATELLITE, 0, "202"},  /* 202ch¡§¥¹¥¿¡¼¡¦¥Á¥ã¥ó¥Í¥ë3 */
-    {   3, CHTYPE_SATELLITE, 1, "236"},  /* 236ch¡§BS¥¢¥Ë¥Þ¥Ã¥¯¥¹ */
-    {   3, CHTYPE_SATELLITE, 2, "256"},  /* 256ch¡§¥Ç¥£¥º¥Ë¡¼¡¦¥Á¥ã¥ó¥Í¥ë */
-    {   4, CHTYPE_SATELLITE, 0, "211"},  /* 211ch¡§BS11¥Ç¥¸¥¿¥ë */
-    {   4, CHTYPE_SATELLITE, 1, "200"},  /* 200ch¡§¥¹¥¿¡¼¡¦¥Á¥ã¥ó¥Í¥ë1 */
-    {   4, CHTYPE_SATELLITE, 2, "222"},  /* 222ch¡§TwellV */
-    {   5, CHTYPE_SATELLITE, 0, "238"},  /* 238ch¡§FOX bs238 */
-    {   5, CHTYPE_SATELLITE, 1, "241"},  /* 241ch¡§BS¥¹¥«¥Ñ¡¼¡ª */
-    {   5, CHTYPE_SATELLITE, 2, "231"},  /* 231ch¡§ÊüÁ÷Âç³Ø¥Æ¥ì¥Ó1 */
-    {   5, CHTYPE_SATELLITE, 2, "232"},  /* 232ch¡§ÊüÁ÷Âç³Ø¥Æ¥ì¥Ó2 */
-    {   5, CHTYPE_SATELLITE, 2, "233"},  /* 233ch¡§ÊüÁ÷Âç³Ø¥Æ¥ì¥Ó3 */
-    {   5, CHTYPE_SATELLITE, 2, "531"},  /* 531ch¡§ÊüÁ÷Âç³Ø¥é¥¸¥ª */
-    {   6, CHTYPE_SATELLITE, 0, "141"},  /* 141ch¡§BSÆü¥Æ¥ì */
-    {   6, CHTYPE_SATELLITE, 1, "181"},  /* 181ch¡§BS¥Õ¥¸ */
-    {   7, CHTYPE_SATELLITE, 0, "101"},  /* 101ch¡§NHK-BS1 */
-    {   7, CHTYPE_SATELLITE, 0, "102"},  /* 102ch¡§NHK-BS1Î×»þ */
-    {   7, CHTYPE_SATELLITE, 1, "103"},  /* 103ch¡§NHK-BS¥×¥ì¥ß¥¢¥à*/
-    {   7, CHTYPE_SATELLITE, 1, "910"},  /* 910ch¡§¥¦¥§¥¶¡¼¥Ë¥å¡¼¥¹(WNI)*/
-    {   8, CHTYPE_SATELLITE, 2, "291"},  /* 291ch¡§NHKÁí¹ç¥Æ¥ì¥Ó¥¸¥ç¥ó¡ÊÅìµþ¡Ë*/
-    {   8, CHTYPE_SATELLITE, 2, "292"},  /* 292ch¡§NHK¶µ°é¥Æ¥ì¥Ó¥¸¥ç¥ó¡ÊÅìµþ¡Ë*/
-    {   8, CHTYPE_SATELLITE, 1, "294"},  /* 294ch¡§ÆüËÜ¥Æ¥ì¥Ó */
-    {   8, CHTYPE_SATELLITE, 1, "295"},  /* 295ch¡§¥Æ¥ì¥ÓÄ«Æü */
-    {   8, CHTYPE_SATELLITE, 1, "296"},  /* 296ch¡§TBS¥Æ¥ì¥Ó */
-    {   8, CHTYPE_SATELLITE, 1, "297"},  /* 297ch¡§¥Æ¥ì¥ÓÅìµþ */
-    {   8, CHTYPE_SATELLITE, 2, "298"},  /* 298ch¡§¥Õ¥¸¥Æ¥ì¥Ó */
-    {   9, CHTYPE_SATELLITE, 0, "234"},  /* 234ch¡§¥°¥ê¡¼¥ó¥Á¥ã¥ó¥Í¥ë */
-    {   9, CHTYPE_SATELLITE, 1, "242"},  /* 242ch¡§J SPORTS 1 */
-    {   9, CHTYPE_SATELLITE, 1, "243"},  /* 243ch¡§J SPORTS 2 */
-    {  10, CHTYPE_SATELLITE, 0, "252"},  /* 252ch¡§IMAGICA BS */
-    {  10, CHTYPE_SATELLITE, 1, "244"},  /* 244ch¡§J SPORTS 3 */
-    {  10, CHTYPE_SATELLITE, 1, "245"},  /* 245ch¡§J SPORTS 4 */
-    {  11, CHTYPE_SATELLITE, 0, "251"},  /* 251ch¡§BSÄà¤ê¥Ó¥¸¥ç¥ó */
-    {  11, CHTYPE_SATELLITE, 1, "255"},  /* 255ch¡§ÆüËÜ±Ç²èÀìÌç¥Á¥ã¥ó¥Í¥ë */
-    {  11, CHTYPE_SATELLITE, 2, "258"},  /* 258ch¡§D-Life */
-    {  12, CHTYPE_SATELLITE, 0, "CS2"},  /* ND2¡§
-                                          * 237ch¡§¥¹¥¿¡¼¡¦¥Á¥ã¥ó¥Í¥ë ¥×¥é¥¹
-                                          * 239ch¡§ÆüËÜ±Ç²èÀìÌç¥Á¥ã¥ó¥Í¥ëHD
-                                          * 306ch¡§¥Õ¥¸¥Æ¥ì¥ÓNEXT */
-    {  13, CHTYPE_SATELLITE, 0, "CS4"},  /* ND4¡§
-                                          * 100ch¡§e2¥×¥í¥â
-                                          * 256ch¡§J sports ESPN
-                                          * 312ch¡§FOX
-                                          * 322ch¡§¥¹¥Ú¡¼¥¹¥·¥ã¥ï¡¼TV
-                                          * 331ch¡§¥«¡¼¥È¥¥¡¼¥ó¥Í¥Ã¥È¥ï¡¼¥¯
-                                          * 294ch¡§¥Û¡¼¥à¥É¥é¥Þ¥Á¥ã¥ó¥Í¥ë
-                                          * 334ch¡§¥È¥¥¡¼¥ó¡¦¥Ç¥£¥º¥Ë¡¼ */
-    {  14, CHTYPE_SATELLITE, 0, "CS6"},  /* ND6¡§
-                                          * 221ch¡§Åì±Ç¥Á¥ã¥ó¥Í¥ë
-                                          * 222ch¡§±ÒÀ±·à¾ì
-                                          * 223ch¡§¥Á¥ã¥ó¥Í¥ëNECO
-                                          * 224ch¡§ÍÎ²è¡ú¥·¥Í¥Õ¥£¥ë¡¦¥¤¥Þ¥¸¥«
-                                          * 292ch¡§»þÂå·àÀìÌç¥Á¥ã¥ó¥Í¥ë
-                                          * 238ch¡§¥¹¥¿¡¼¡¦¥Á¥ã¥ó¥Í¥ë ¥¯¥é¥·¥Ã¥¯
-                                          * 310ch¡§¥¹¡¼¥Ñ¡¼¡ª¥É¥é¥ÞTV
-                                          * 311ch¡§AXN
-                                          * 343ch¡§¥Ê¥·¥ç¥Ê¥ë¥¸¥ª¥°¥é¥Õ¥£¥Ã¥¯¥Á¥ã¥ó¥Í¥ë */
+    {   0, CHTYPE_SATELLITE, 0, "151"},  /* 151chï¼šBSæœæ—¥ */
+    {   0, CHTYPE_SATELLITE, 1, "161"},  /* 161chï¼šBS-TBS */
+    {   1, CHTYPE_SATELLITE, 0, "191"},  /* 191chï¼šWOWOW */
+    {   1, CHTYPE_SATELLITE, 1, "171"},  /* 171chï¼šBSã‚¸ãƒ£ãƒ‘ãƒ³ */
+    {   2, CHTYPE_SATELLITE, 0, "192"},  /* 192chï¼šWOWOWãƒ©ã‚¤ãƒ– */
+    {   2, CHTYPE_SATELLITE, 1, "193"},  /* 193chï¼šWOWOWã‚·ãƒãƒž */
+    {   3, CHTYPE_SATELLITE, 0, "201"},  /* 201chï¼šã‚¹ã‚¿ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ«2 */
+    {   3, CHTYPE_SATELLITE, 0, "202"},  /* 202chï¼šã‚¹ã‚¿ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ«3 */
+    {   3, CHTYPE_SATELLITE, 1, "236"},  /* 236chï¼šBSã‚¢ãƒ‹ãƒžãƒƒã‚¯ã‚¹ */
+    {   3, CHTYPE_SATELLITE, 2, "256"},  /* 256chï¼šãƒ‡ã‚£ã‚ºãƒ‹ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ« */
+    {   4, CHTYPE_SATELLITE, 0, "211"},  /* 211chï¼šBS11ãƒ‡ã‚¸ã‚¿ãƒ« */
+    {   4, CHTYPE_SATELLITE, 1, "200"},  /* 200chï¼šã‚¹ã‚¿ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ«1 */
+    {   4, CHTYPE_SATELLITE, 2, "222"},  /* 222chï¼šTwellV */
+    {   5, CHTYPE_SATELLITE, 0, "238"},  /* 238chï¼šFOX bs238 */
+    {   5, CHTYPE_SATELLITE, 1, "241"},  /* 241chï¼šBSã‚¹ã‚«ãƒ‘ãƒ¼ï¼ */
+    {   5, CHTYPE_SATELLITE, 2, "231"},  /* 231chï¼šæ”¾é€å¤§å­¦ãƒ†ãƒ¬ãƒ“1 */
+    {   5, CHTYPE_SATELLITE, 2, "232"},  /* 232chï¼šæ”¾é€å¤§å­¦ãƒ†ãƒ¬ãƒ“2 */
+    {   5, CHTYPE_SATELLITE, 2, "233"},  /* 233chï¼šæ”¾é€å¤§å­¦ãƒ†ãƒ¬ãƒ“3 */
+    {   5, CHTYPE_SATELLITE, 2, "531"},  /* 531chï¼šæ”¾é€å¤§å­¦ãƒ©ã‚¸ã‚ª */
+    {   6, CHTYPE_SATELLITE, 0, "141"},  /* 141chï¼šBSæ—¥ãƒ†ãƒ¬ */
+    {   6, CHTYPE_SATELLITE, 1, "181"},  /* 181chï¼šBSãƒ•ã‚¸ */
+    {   7, CHTYPE_SATELLITE, 0, "101"},  /* 101chï¼šNHK-BS1 */
+    {   7, CHTYPE_SATELLITE, 0, "102"},  /* 102chï¼šNHK-BS1è‡¨æ™‚ */
+    {   7, CHTYPE_SATELLITE, 1, "103"},  /* 103chï¼šNHK-BSãƒ—ãƒ¬ãƒŸã‚¢ãƒ */
+    {   7, CHTYPE_SATELLITE, 1, "910"},  /* 910chï¼šã‚¦ã‚§ã‚¶ãƒ¼ãƒ‹ãƒ¥ãƒ¼ã‚¹(WNI)*/
+    {   8, CHTYPE_SATELLITE, 2, "291"},  /* 291chï¼šNHKç·åˆãƒ†ãƒ¬ãƒ“ã‚¸ãƒ§ãƒ³ï¼ˆæ±äº¬ï¼‰*/
+    {   8, CHTYPE_SATELLITE, 2, "292"},  /* 292chï¼šNHKæ•™è‚²ãƒ†ãƒ¬ãƒ“ã‚¸ãƒ§ãƒ³ï¼ˆæ±äº¬ï¼‰*/
+    {   8, CHTYPE_SATELLITE, 1, "294"},  /* 294chï¼šæ—¥æœ¬ãƒ†ãƒ¬ãƒ“ */
+    {   8, CHTYPE_SATELLITE, 1, "295"},  /* 295chï¼šãƒ†ãƒ¬ãƒ“æœæ—¥ */
+    {   8, CHTYPE_SATELLITE, 1, "296"},  /* 296chï¼šTBSãƒ†ãƒ¬ãƒ“ */
+    {   8, CHTYPE_SATELLITE, 1, "297"},  /* 297chï¼šãƒ†ãƒ¬ãƒ“æ±äº¬ */
+    {   8, CHTYPE_SATELLITE, 2, "298"},  /* 298chï¼šãƒ•ã‚¸ãƒ†ãƒ¬ãƒ“ */
+    {   9, CHTYPE_SATELLITE, 0, "234"},  /* 234chï¼šã‚°ãƒªãƒ¼ãƒ³ãƒãƒ£ãƒ³ãƒãƒ« */
+    {   9, CHTYPE_SATELLITE, 1, "242"},  /* 242chï¼šJ SPORTS 1 */
+    {   9, CHTYPE_SATELLITE, 1, "243"},  /* 243chï¼šJ SPORTS 2 */
+    {  10, CHTYPE_SATELLITE, 0, "252"},  /* 252chï¼šIMAGICA BS */
+    {  10, CHTYPE_SATELLITE, 1, "244"},  /* 244chï¼šJ SPORTS 3 */
+    {  10, CHTYPE_SATELLITE, 1, "245"},  /* 245chï¼šJ SPORTS 4 */
+    {  11, CHTYPE_SATELLITE, 0, "251"},  /* 251chï¼šBSé‡£ã‚Šãƒ“ã‚¸ãƒ§ãƒ³ */
+    {  11, CHTYPE_SATELLITE, 1, "255"},  /* 255chï¼šæ—¥æœ¬æ˜ ç”»å°‚é–€ãƒãƒ£ãƒ³ãƒãƒ« */
+    {  11, CHTYPE_SATELLITE, 2, "258"},  /* 258chï¼šD-Life */
+    {  12, CHTYPE_SATELLITE, 0, "CS2"},  /* ND2ï¼š
+                                          * 237chï¼šã‚¹ã‚¿ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ« ãƒ—ãƒ©ã‚¹
+                                          * 239chï¼šæ—¥æœ¬æ˜ ç”»å°‚é–€ãƒãƒ£ãƒ³ãƒãƒ«HD
+                                          * 306chï¼šãƒ•ã‚¸ãƒ†ãƒ¬ãƒ“NEXT */
+    {  13, CHTYPE_SATELLITE, 0, "CS4"},  /* ND4ï¼š
+                                          * 100chï¼še2ãƒ—ãƒ­ãƒ¢
+                                          * 256chï¼šJ sports ESPN
+                                          * 312chï¼šFOX
+                                          * 322chï¼šã‚¹ãƒšãƒ¼ã‚¹ã‚·ãƒ£ãƒ¯ãƒ¼TV
+                                          * 331chï¼šã‚«ãƒ¼ãƒˆã‚¥ãƒ¼ãƒ³ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯
+                                          * 294chï¼šãƒ›ãƒ¼ãƒ ãƒ‰ãƒ©ãƒžãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 334chï¼šãƒˆã‚¥ãƒ¼ãƒ³ãƒ»ãƒ‡ã‚£ã‚ºãƒ‹ãƒ¼ */
+    {  14, CHTYPE_SATELLITE, 0, "CS6"},  /* ND6ï¼š
+                                          * 221chï¼šæ±æ˜ ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 222chï¼šè¡›æ˜ŸåŠ‡å ´
+                                          * 223chï¼šãƒãƒ£ãƒ³ãƒãƒ«NECO
+                                          * 224chï¼šæ´‹ç”»â˜…ã‚·ãƒãƒ•ã‚£ãƒ«ãƒ»ã‚¤ãƒžã‚¸ã‚«
+                                          * 292chï¼šæ™‚ä»£åŠ‡å°‚é–€ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 238chï¼šã‚¹ã‚¿ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ« ã‚¯ãƒ©ã‚·ãƒƒã‚¯
+                                          * 310chï¼šã‚¹ãƒ¼ãƒ‘ãƒ¼ï¼ãƒ‰ãƒ©ãƒžTV
+                                          * 311chï¼šAXN
+                                          * 343chï¼šãƒŠã‚·ãƒ§ãƒŠãƒ«ã‚¸ã‚ªã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ£ãƒ³ãƒãƒ« */
 
-    {  15, CHTYPE_SATELLITE, 0, "CS8"},  /* ND8¡§
-                                          * 055ch¡§¥·¥ç¥Ã¥× ¥Á¥ã¥ó¥Í¥ë 
-                                          * 335ch¡§¥­¥Ã¥º¥¹¥Æ¡¼¥·¥ç¥óHD */
-    {  16, CHTYPE_SATELLITE, 0, "CS10"}, /* ND10¡§
-                                          * 228ch¡§¥¶¡¦¥·¥Í¥Þ
-                                          * 800ch¡§¥¹¥«¥Á¥ã¥óHD800
-                                          * 801ch¡§¥¹¥«¥Á¥ã¥ó801
-                                          * 802ch¡§¥¹¥«¥Á¥ã¥ó802 */
-    {  17, CHTYPE_SATELLITE, 0, "CS12"}, /* ND12¡§
-                                          * 260ch¡§¥¶¡¦¥´¥ë¥Õ¡¦¥Á¥ã¥ó¥Í¥ë
-                                          * 303ch¡§¥Æ¥ìÄ«¥Á¥ã¥ó¥Í¥ë
-                                          * 323ch¡§MTV 324ch¡§Âç¿Í¤Î²»³ÚÀìÌçTV¢¡¥ß¥å¡¼¥¸¥Ã¥¯¡¦¥¨¥¢
-                                          * 352ch¡§Ä«Æü¥Ë¥å¡¼¥¹¥¿¡¼
-                                          * 353ch¡§BBC¥ï¡¼¥ë¥É¥Ë¥å¡¼¥¹
-                                          * 354ch¡§CNNj
-                                          * 110ch¡§¥ï¥ó¥Æ¥ó¥Ý¡¼¥¿¥ë */
-    {  18, CHTYPE_SATELLITE, 0, "CS14"}, /* ND14¡§
-                                          * 251ch¡§J sports 1
-                                          * 252ch¡§J sports 2
-                                          * 253ch¡§J sports Plus
-                                          * 254ch¡§GAORA
-                                          * 255ch¡§¥¹¥«¥¤¡¦Asports¡Ü */
-    {  19, CHTYPE_SATELLITE, 0, "CS16"}, /* ND16¡§
-                                          * 305ch¡§¥Á¥ã¥ó¥Í¥ë¶ä²Ï
-                                          * 333ch¡§¥¢¥Ë¥á¥·¥¢¥¿¡¼X(AT-X)
-                                          * 342ch¡§¥Ò¥¹¥È¥ê¡¼¥Á¥ã¥ó¥Í¥ë
-                                          * 290ch¡§TAKARAZUKA SKYSTAGE
-                                          * 803ch¡§¥¹¥«¥Á¥ã¥ó803
-                                          * 804ch¡§¥¹¥«¥Á¥ã¥ó804 */
-    {  20, CHTYPE_SATELLITE, 0, "CS18"}, /* ND18¡§
-                                          * 240ch¡§¥à¡¼¥Ó¡¼¥×¥é¥¹HD
-                                          * 262ch¡§¥´¥ë¥Õ¥Í¥Ã¥È¥ï¡¼¥¯
-                                          * 314ch¡§LaLa HDHV */
-    {  21, CHTYPE_SATELLITE, 0, "CS20"}, /* ND20¡§
-                                          * 258ch¡§¥Õ¥¸¥Æ¥ì¥ÓONE
-                                          * 302ch¡§¥Õ¥¸¥Æ¥ì¥ÓTWO
-                                          * 332ch¡§¥¢¥Ë¥Þ¥Ã¥¯¥¹
-                                          * 340ch¡§¥Ç¥£¥¹¥«¥Ð¥ê¡¼¥Á¥ã¥ó¥Í¥ë
-                                          * 341ch¡§¥¢¥Ë¥Þ¥ë¥×¥é¥Í¥Ã¥È */
-    {  22, CHTYPE_SATELLITE, 0, "CS22"}, /* ND22¡§
-                                          * 160ch¡§C-TBS¥¦¥§¥ë¥«¥à¥Á¥ã¥ó¥Í¥ë
-                                          * 161ch¡§QVC
-                                          * 185ch¡§¥×¥é¥¤¥à365.TV
-                                          * 293ch¡§¥Õ¥¡¥ß¥ê¡¼·à¾ì
-                                          * 301ch¡§TBS¥Á¥ã¥ó¥Í¥ë
-                                          * 304ch¡§¥Ç¥£¥º¥Ë¡¼¡¦¥Á¥ã¥ó¥Í¥ë
-                                          * 325ch¡§MUSIC ON! TV
-                                          * 351ch¡§TBS¥Ë¥å¡¼¥¹¥Ð¡¼¥É */
-    {  23, CHTYPE_SATELLITE, 0, "CS24"}, /* ND24¡§
-                                          * 257ch¡§Æü¥Æ¥ìG+ HD
-                                          * 291ch¡§fashiontv
-                                          * 321ch¡§MusicJapan TV
-                                          * 300ch¡§Æü¥Æ¥ì¥×¥é¥¹
-                                          * 350ch¡§Æü¥Æ¥ìNEWS24 
-                                          * 362ch¡§Î¹¥Á¥ã¥ó¥Í¥ë*/
+    {  15, CHTYPE_SATELLITE, 0, "CS8"},  /* ND8ï¼š
+                                          * 055chï¼šã‚·ãƒ§ãƒƒãƒ— ãƒãƒ£ãƒ³ãƒãƒ« 
+                                          * 335chï¼šã‚­ãƒƒã‚ºã‚¹ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³HD */
+    {  16, CHTYPE_SATELLITE, 0, "CS10"}, /* ND10ï¼š
+                                          * 228chï¼šã‚¶ãƒ»ã‚·ãƒãƒž
+                                          * 800chï¼šã‚¹ã‚«ãƒãƒ£ãƒ³HD800
+                                          * 801chï¼šã‚¹ã‚«ãƒãƒ£ãƒ³801
+                                          * 802chï¼šã‚¹ã‚«ãƒãƒ£ãƒ³802 */
+    {  17, CHTYPE_SATELLITE, 0, "CS12"}, /* ND12ï¼š
+                                          * 260chï¼šã‚¶ãƒ»ã‚´ãƒ«ãƒ•ãƒ»ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 303chï¼šãƒ†ãƒ¬æœãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 323chï¼šMTV 324chï¼šå¤§äººã®éŸ³æ¥½å°‚é–€TVâ—†ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ãƒ»ã‚¨ã‚¢
+                                          * 352chï¼šæœæ—¥ãƒ‹ãƒ¥ãƒ¼ã‚¹ã‚¿ãƒ¼
+                                          * 353chï¼šBBCãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒ‹ãƒ¥ãƒ¼ã‚¹
+                                          * 354chï¼šCNNj
+                                          * 110chï¼šãƒ¯ãƒ³ãƒ†ãƒ³ãƒãƒ¼ã‚¿ãƒ« */
+    {  18, CHTYPE_SATELLITE, 0, "CS14"}, /* ND14ï¼š
+                                          * 251chï¼šJ sports 1
+                                          * 252chï¼šJ sports 2
+                                          * 253chï¼šJ sports Plus
+                                          * 254chï¼šGAORA
+                                          * 255chï¼šã‚¹ã‚«ã‚¤ãƒ»Asportsï¼‹ */
+    {  19, CHTYPE_SATELLITE, 0, "CS16"}, /* ND16ï¼š
+                                          * 305chï¼šãƒãƒ£ãƒ³ãƒãƒ«éŠ€æ²³
+                                          * 333chï¼šã‚¢ãƒ‹ãƒ¡ã‚·ã‚¢ã‚¿ãƒ¼X(AT-X)
+                                          * 342chï¼šãƒ’ã‚¹ãƒˆãƒªãƒ¼ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 290chï¼šTAKARAZUKA SKYSTAGE
+                                          * 803chï¼šã‚¹ã‚«ãƒãƒ£ãƒ³803
+                                          * 804chï¼šã‚¹ã‚«ãƒãƒ£ãƒ³804 */
+    {  20, CHTYPE_SATELLITE, 0, "CS18"}, /* ND18ï¼š
+                                          * 240chï¼šãƒ ãƒ¼ãƒ“ãƒ¼ãƒ—ãƒ©ã‚¹HD
+                                          * 262chï¼šã‚´ãƒ«ãƒ•ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯
+                                          * 314chï¼šLaLa HDHV */
+    {  21, CHTYPE_SATELLITE, 0, "CS20"}, /* ND20ï¼š
+                                          * 258chï¼šãƒ•ã‚¸ãƒ†ãƒ¬ãƒ“ONE
+                                          * 302chï¼šãƒ•ã‚¸ãƒ†ãƒ¬ãƒ“TWO
+                                          * 332chï¼šã‚¢ãƒ‹ãƒžãƒƒã‚¯ã‚¹
+                                          * 340chï¼šãƒ‡ã‚£ã‚¹ã‚«ãƒãƒªãƒ¼ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 341chï¼šã‚¢ãƒ‹ãƒžãƒ«ãƒ—ãƒ©ãƒãƒƒãƒˆ */
+    {  22, CHTYPE_SATELLITE, 0, "CS22"}, /* ND22ï¼š
+                                          * 160chï¼šC-TBSã‚¦ã‚§ãƒ«ã‚«ãƒ ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 161chï¼šQVC
+                                          * 185chï¼šãƒ—ãƒ©ã‚¤ãƒ 365.TV
+                                          * 293chï¼šãƒ•ã‚¡ãƒŸãƒªãƒ¼åŠ‡å ´
+                                          * 301chï¼šTBSãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 304chï¼šãƒ‡ã‚£ã‚ºãƒ‹ãƒ¼ãƒ»ãƒãƒ£ãƒ³ãƒãƒ«
+                                          * 325chï¼šMUSIC ON! TV
+                                          * 351chï¼šTBSãƒ‹ãƒ¥ãƒ¼ã‚¹ãƒãƒ¼ãƒ‰ */
+    {  23, CHTYPE_SATELLITE, 0, "CS24"}, /* ND24ï¼š
+                                          * 257chï¼šæ—¥ãƒ†ãƒ¬G+ HD
+                                          * 291chï¼šfashiontv
+                                          * 321chï¼šMusicJapan TV
+                                          * 300chï¼šæ—¥ãƒ†ãƒ¬ãƒ—ãƒ©ã‚¹
+                                          * 350chï¼šæ—¥ãƒ†ãƒ¬NEWS24 
+                                          * 362chï¼šæ—…ãƒãƒ£ãƒ³ãƒãƒ«*/
     {   0, CHTYPE_GROUND, 0,   "1"}, {   1, CHTYPE_GROUND, 0,   "2"},
     {   2, CHTYPE_GROUND, 0,   "3"}, {   3, CHTYPE_GROUND, 0, "C13"},
     {   4, CHTYPE_GROUND, 0, "C14"}, {   5, CHTYPE_GROUND, 0, "C15"},
