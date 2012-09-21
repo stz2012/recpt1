@@ -2,8 +2,8 @@
 #ifndef _RECPT1_H_
 #define _RECPT1_H_
 
-#define NUM_BSDEV       8
-#define NUM_ISDB_T_DEV  8
+#define NUM_BSDEV       12
+#define NUM_ISDB_T_DEV  12
 #define CHTYPE_SATELLITE    0        /* satellite digital */
 #define CHTYPE_GROUND       1        /* terrestrial digital */
 #define MAX_QUEUE           8192
