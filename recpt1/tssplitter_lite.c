@@ -466,6 +466,15 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 					}
 					break;
 				}
+				else if(!strcasecmp(*p, "epg")) {
+					/* epg抽出に必要なPIDのみを保存する */
+					sid_found    = TRUE;
+					*(pids+0x11) = 1;
+					*(pids+0x12) = 1;
+					*(pids+0x23) = 1;
+					*(pids+0x29) = 1;
+					break;
+				}
 
 				p++;
 			} /* while */
