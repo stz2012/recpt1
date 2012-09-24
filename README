@@ -8,7 +8,7 @@ Linux用PT1/PT2/PT3録画プログラムです。
 　PT3：https://github.com/m-tsudo/pt3
 ※libarib25はこちら→ https://github.com/stz2012/libarib25
 
-cd recpt1 && chmod 755 autogen.sh
+cd recpt1/recpt1
 ./autogen.sh
 ./configure --enable-b25
 make
