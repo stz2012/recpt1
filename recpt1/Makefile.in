@@ -50,7 +50,7 @@ $(DEPEND): version.h
 version.h:
 	revh="`git rev-list HEAD | wc -l 2> /dev/null`"; \
 	if [ -n "$$revh" ] && [ "$$revh" != "0" ] ; then \
-		echo "const char *version = \"rev.$$revh\";" > $@; \
+		echo "const char *version = \"rev.$$revh by stz2012\";" > $@; \
 	else \
 		echo "const char *version = \"$(RELEASE_VERSION)\";" > $@; \
 	fi
