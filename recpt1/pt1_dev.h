@@ -40,7 +40,7 @@ char *isdb_t_dev[NUM_ISDB_T_DEV] = {
 ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   0, CHTYPE_SATELLITE, 0, "151"},  /* 151ch：BS朝日 */
     {   0, CHTYPE_SATELLITE, 1, "161"},  /* 161ch：BS-TBS */
-    {   1, CHTYPE_SATELLITE, 0, "191"},  /* 191ch：WOWOW */
+    {   1, CHTYPE_SATELLITE, 0, "191"},  /* 191ch：WOWOW prime */
     {   1, CHTYPE_SATELLITE, 1, "171"},  /* 171ch：BSジャパン */
     {   2, CHTYPE_SATELLITE, 0, "192"},  /* 192ch：WOWOWライブ */
     {   2, CHTYPE_SATELLITE, 1, "193"},  /* 193ch：WOWOWシネマ */
@@ -72,10 +72,10 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   8, CHTYPE_SATELLITE, 2, "298"},  /* 298ch：フジテレビ */
     {   9, CHTYPE_SATELLITE, 0, "234"},  /* 234ch：グリーンチャンネル */
     {   9, CHTYPE_SATELLITE, 1, "242"},  /* 242ch：J SPORTS 1 */
-    {   9, CHTYPE_SATELLITE, 1, "243"},  /* 243ch：J SPORTS 2 */
+    {   9, CHTYPE_SATELLITE, 2, "243"},  /* 243ch：J SPORTS 2 */
     {  10, CHTYPE_SATELLITE, 0, "252"},  /* 252ch：IMAGICA BS */
     {  10, CHTYPE_SATELLITE, 1, "244"},  /* 244ch：J SPORTS 3 */
-    {  10, CHTYPE_SATELLITE, 1, "245"},  /* 245ch：J SPORTS 4 */
+    {  10, CHTYPE_SATELLITE, 2, "245"},  /* 245ch：J SPORTS 4 */
     {  11, CHTYPE_SATELLITE, 0, "251"},  /* 251ch：BS釣りビジョン */
     {  11, CHTYPE_SATELLITE, 1, "255"},  /* 255ch：日本映画専門チャンネル */
     {  11, CHTYPE_SATELLITE, 2, "258"},  /* 258ch：D-Life */
@@ -100,10 +100,9 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
                                           * 238ch：スター・チャンネル クラシック
                                           * 310ch：スーパー！ドラマTV
                                           * 311ch：AXN
-                                          * 343ch：ナショナルジオグラフィックチャンネル */
-
+                                          * 250ch：スカイ・Asports＋ */
     {  15, CHTYPE_SATELLITE, 0, "CS8"},  /* ND8：
-                                          * 055ch：ショップ チャンネル 
+                                          * 055ch：ショップ チャンネル
                                           * 335ch：キッズステーションHD */
     {  16, CHTYPE_SATELLITE, 0, "CS10"}, /* ND10：
                                           * 228ch：ザ・シネマ
@@ -122,8 +121,7 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
                                           * 251ch：J sports 1
                                           * 252ch：J sports 2
                                           * 253ch：J sports Plus
-                                          * 254ch：GAORA
-                                          * 255ch：スカイ・Asports＋ */
+                                          * 254ch：GAORA */
     {  19, CHTYPE_SATELLITE, 0, "CS16"}, /* ND16：
                                           * 305ch：チャンネル銀河
                                           * 333ch：アニメシアターX(AT-X)
@@ -149,12 +147,14 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
                                           * 301ch：TBSチャンネル
                                           * 304ch：ディズニー・チャンネル
                                           * 325ch：MUSIC ON! TV
-                                          * 351ch：TBSニュースバード */
+                                          * 351ch：TBSニュースバード
+                                          * 343ch：ナショナルジオグラフィックチャンネル */
     {  23, CHTYPE_SATELLITE, 0, "CS24"}, /* ND24：
                                           * 257ch：日テレG+ HD
                                           * 291ch：fashiontv
-                                          * 321ch：MusicJapan TV
                                           * 300ch：日テレプラス
+                                          * 315ch：FOXプラス
+                                          * 321ch：MusicJapan TV
                                           * 350ch：日テレNEWS24 
                                           * 362ch：旅チャンネル*/
     {   0, CHTYPE_GROUND, 0,   "1"}, {   1, CHTYPE_GROUND, 0,   "2"},

@@ -165,20 +165,36 @@ show_channels(void)
     else
         fprintf(stderr, "13-62: Terrestrial Channels\n");
 
-    fprintf(stderr, "101ch: NHK BS1\n");
-    fprintf(stderr, "102ch: NHK BS2\n");
-    fprintf(stderr, "103ch: NHK BShi\n");
-    fprintf(stderr, "141ch: BS Nittele\n");
-    fprintf(stderr, "151ch: BS Asahi\n");
-    fprintf(stderr, "161ch: BS-TBS\n");
-    fprintf(stderr, "171ch: BS Japan\n");
-    fprintf(stderr, "181ch: BS Fuji\n");
-    fprintf(stderr, "191ch: WOWOW\n");
-    fprintf(stderr, "192ch: WOWOW2\n");
-    fprintf(stderr, "193ch: WOWOW3\n");
-    fprintf(stderr, "200ch: Star Channel\n");
-    fprintf(stderr, "211ch: BS11 Digital\n");
-    fprintf(stderr, "222ch: TwellV\n");
+    fprintf(stderr, "BS01_0: BS朝日\n");
+    fprintf(stderr, "BS01_1: BS-TBS\n");
+    fprintf(stderr, "BS03_0: WOWOWプライム\n");
+    fprintf(stderr, "BS03_1: BSジャパン\n");
+    fprintf(stderr, "BS05_0: WOWOWライブ\n");
+    fprintf(stderr, "BS05_1: WOWOWシネマ\n");
+    fprintf(stderr, "BS07_0: スターチャンネル2/3\n");
+    fprintf(stderr, "BS07_1: BSアニマックス\n");
+    fprintf(stderr, "BS07_2: ディズニーチャンネル\n");
+    fprintf(stderr, "BS09_0: BS11\n");
+    fprintf(stderr, "BS09_1: スターチャンネル1\n");
+    fprintf(stderr, "BS09_2: TwellV\n");
+    fprintf(stderr, "BS11_0: FOX bs238\n");
+    fprintf(stderr, "BS11_1: BSスカパー!\n");
+    fprintf(stderr, "BS11_2: 放送大学\n");
+    fprintf(stderr, "BS13_0: BS日テレ\n");
+    fprintf(stderr, "BS13_1: BSフジ\n");
+    fprintf(stderr, "BS15_0: NHK BS1\n");
+    fprintf(stderr, "BS15_1: NHK BSプレミアム\n");
+    fprintf(stderr, "BS17_0: 地デジ難視聴1(NHK/NHK-E/CX)\n");
+    fprintf(stderr, "BS17_1: 地デジ難視聴2(NTV/TBS/EX/TX)\n");
+    fprintf(stderr, "BS19_0: グリーンチャンネル\n");
+    fprintf(stderr, "BS19_1: J SPORTS 1\n");
+    fprintf(stderr, "BS19_2: J SPORTS 2\n");
+    fprintf(stderr, "BS21_0: IMAGICA BS\n");
+    fprintf(stderr, "BS21_1: J SPORTS 3\n");
+    fprintf(stderr, "BS21_2: J SPORTS 4\n");
+    fprintf(stderr, "BS23_0: BS釣りビジョン\n");
+    fprintf(stderr, "BS23_1: 日本映画専門チャンネル\n");
+    fprintf(stderr, "BS23_2: D-Life\n");
     fprintf(stderr, "C13-C63: CATV Channels\n");
     fprintf(stderr, "CS2-CS24: CS Channels\n");
 }
@@ -435,7 +451,7 @@ main(int argc, char **argv)
             break;
         case 'v':
             fprintf(stderr, "%s %s\n", argv[0], version);
-            fprintf(stderr, "signal check utility for PT1/2 digital tuner.\n");
+            fprintf(stderr, "signal check utility for PT1/2/3 digital tuner.\n");
             exit(0);
             break;
         case 'l':

@@ -23,8 +23,8 @@ typedef struct decoder_options {
 #else
 
 typedef struct {
-    int size;
-    void *data;
+    uint8_t *data;
+    int32_t  size;
 } ARIB_STD_B25_BUFFER;
 
 typedef struct decoder {

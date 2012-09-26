@@ -7,8 +7,11 @@
 #include <linux/init.h>
 #include <linux/interrupt.h>
 #include <linux/mutex.h>
+#include <linux/version.h>
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0)
 #include <asm/system.h>
+#endif
 #include <asm/io.h>
 #include <asm/irq.h>
 #include <asm/uaccess.h>

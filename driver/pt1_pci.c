@@ -9,13 +9,16 @@
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
+#include <linux/version.h>
+#include <linux/mutex.h>
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0)
 #include <asm/system.h>
+#endif
 #include <asm/io.h>
 #include <asm/irq.h>
 #include <asm/uaccess.h>
-#include <linux/version.h>
-#include <linux/mutex.h>
+
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,23)
 #include <linux/freezer.h>
 #else
@@ -33,7 +36,6 @@ typedef struct pm_message {
 #include <linux/cdev.h>
 
 #include <linux/ioctl.h>
-#include <linux/smp_lock.h>
 
 #include	"pt1_com.h"
 #include	"pt1_pci.h"
@@ -75,10 +77,11 @@ MODULE_DEVICE_TABLE(pci, pt1_pci_tbl);
 #define		MAX_READ_BLOCK	4			// 1度に読み出す最大DMAバッファ数
 #define		MAX_PCI_DEVICE		128		// 最大64枚
 #define		DMA_SIZE	4096			// DMAバッファサイズ
-#define		DMA_RING_SIZE	128			// RINGサイズ
-#define		DMA_RING_MAX	511			// 1RINGにいくつ詰めるか(1023はNGで511まで)
-#define		CHANEL_DMA_SIZE	(2*1024*1024)	// 地デジ用(16Mbps)
-#define		BS_CHANEL_DMA_SIZE	(4*1024*1024)	// BS用(32Mbps)
+#define		DMA_RING_SIZE	128			// number of DMA RINGS
+#define		DMA_RING_MAX	511			// number of DMA entries in a RING(1023はNGで511まで)
+#define		CHANNEL_DMA_SIZE	(2*1024*1024)	// 地デジ用(16Mbps)
+#define		BS_CHANNEL_DMA_SIZE	(4*1024*1024)	// BS用(32Mbps)
+#define		READ_SIZE	(16*DMA_SIZE)
 
 typedef	struct	_DMA_CONTROL{
 	dma_addr_t	ring_dma[DMA_RING_MAX] ;	// DMA情報
@@ -184,7 +187,6 @@ static	int		pt1_thread(void *data)
 	int		data_pos = 0 ;
 	int		lp ;
 	int		chno ;
-	int		lp2 ;
 	int		dma_channel ;
 	int		packet_pos ;
 	__u32	*dataptr ;
@@ -267,10 +269,10 @@ static	int		pt1_thread(void *data)
 					channel->packet_size = 0 ;
 				}
 				// データコピー
-				for(lp2 = 2 ; lp2 >= 0 ; lp2--){
-					channel->packet_buf[channel->packet_size] = micro.packet.data[lp2] ;
-					channel->packet_size += 1 ;
-				}
+				channel->packet_buf[channel->packet_size]   = micro.packet.data[2];
+				channel->packet_buf[channel->packet_size+1] = micro.packet.data[1];
+				channel->packet_buf[channel->packet_size+2] = micro.packet.data[0];
+				channel->packet_size += 3;
 
 				// パケットが出来たらコピーする
 				if(channel->packet_size >= PACKET_SIZE){
@@ -307,15 +309,15 @@ static	int		pt1_thread(void *data)
 				}
 			}
 
-			// 頻度を落す(4Kで起動させる)
+			// 頻度を落す(wait until READ_SIZE)
 			for(lp = 0 ; lp < MAX_CHANNEL ; lp++){
 				channel = dev_conf->channel[real_channel[lp]] ;
-				if((channel->size >= DMA_SIZE) && (channel->valid == TRUE)){
+				if((channel->size >= READ_SIZE) && (channel->valid == TRUE)){
 					wake_up(&channel->wait_q);
 				}
 			}
 		}
-		schedule_timeout_interruptible(msecs_to_jiffies(1));
+		schedule_timeout_interruptible(msecs_to_jiffies(100));
 	}
 	return 0 ;
 }
@@ -349,7 +351,7 @@ static int pt1_open(struct inode *inode, struct file *file)
 					set_sleepmode(channel->ptr->regs, &channel->lock,
 								  channel->address, channel->type,
 								  TYPE_WAKEUP);
-					schedule_timeout_interruptible(msecs_to_jiffies(50));
+					schedule_timeout_interruptible(msecs_to_jiffies(100));
 
 					channel->drop  = 0 ;
 					channel->valid = TRUE ;
@@ -393,7 +395,7 @@ static int pt1_release(struct inode *inode, struct file *file)
 	/* send tuner to sleep */
 	set_sleepmode(channel->ptr->regs, &channel->lock,
 				  channel->address, channel->type, TYPE_SLEEP);
-	schedule_timeout_interruptible(msecs_to_jiffies(50));
+	schedule_timeout_interruptible(msecs_to_jiffies(100));
 
 	return 0;
 }
@@ -404,9 +406,9 @@ static ssize_t pt1_read(struct file *file, char __user *buf, size_t cnt, loff_t 
 	__u32	size ;
 	unsigned long dummy;
 
-	// 4K単位で起こされるのを待つ(CPU負荷対策)
-	if(channel->size < DMA_SIZE){
-		wait_event_timeout(channel->wait_q, (channel->size >= DMA_SIZE),
+	// READ_SIZE単位で起こされるのを待つ(CPU負荷対策)
+	if(channel->size < READ_SIZE){
+		wait_event_timeout(channel->wait_q, (channel->size >= READ_SIZE),
 							msecs_to_jiffies(500));
 	}
 	mutex_lock(&channel->lock);
@@ -534,6 +536,7 @@ static long pt1_do_ioctl(struct file  *file, unsigned int cmd, unsigned long arg
 			return 0 ;
 		case STOP_REC:
 			SetStream(channel->ptr->regs, channel->channel, FALSE);
+			schedule_timeout_interruptible(msecs_to_jiffies(100));
 			return 0 ;
 		case GET_SIGNAL_STRENGTH:
 			switch(channel->type){
@@ -571,11 +574,12 @@ static long pt1_do_ioctl(struct file  *file, unsigned int cmd, unsigned long arg
 
 static long pt1_unlocked_ioctl(struct file  *file, unsigned int cmd, unsigned long arg0)
 {
+	PT1_CHANNEL	*channel = file->private_data;
 	long ret;
 
-	lock_kernel();
+	mutex_lock(&channel->lock);
 	ret = pt1_do_ioctl(file, cmd, arg0);
-	unlock_kernel();
+	mutex_unlock(&channel->lock);
 
 	return ret;
 }
@@ -607,9 +611,10 @@ static const struct file_operations pt1_fops = {
 	.read		=	pt1_read,
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36)
 	.ioctl		=	pt1_ioctl,
-#endif
+#else
 	.unlocked_ioctl		=	pt1_unlocked_ioctl,
 	.compat_ioctl		=	pt1_compat_ioctl,
+#endif
 	.llseek		=	no_llseek,
 };
 
@@ -772,10 +777,10 @@ static int __devinit pt1_pci_init_one (struct pci_dev *pdev,
 	}
 	// チューナリセット
 	settuner_reset(dev_conf->regs, dev_conf->cardtype, LNB_OFF, TUNER_POWER_ON_RESET_ENABLE);
-	schedule_timeout_interruptible(msecs_to_jiffies(50));
+	schedule_timeout_interruptible(msecs_to_jiffies(100));
 
 	settuner_reset(dev_conf->regs, dev_conf->cardtype, LNB_OFF, TUNER_POWER_ON_RESET_DISABLE);
-	schedule_timeout_interruptible(msecs_to_jiffies(10));
+	schedule_timeout_interruptible(msecs_to_jiffies(100));
 	mutex_init(&dev_conf->lock);
 
 	// Tuner 初期化処理
@@ -791,7 +796,7 @@ static int __devinit pt1_pci_init_one (struct pci_dev *pdev,
 		set_sleepmode(dev_conf->regs, &dev_conf->lock,
 						i2c_address[lp], channeltype[lp], TYPE_SLEEP);
 
-		schedule_timeout_interruptible(msecs_to_jiffies(50));
+		schedule_timeout_interruptible(msecs_to_jiffies(100));
 	}
 	rc = alloc_chrdev_region(&dev_conf->dev, 0, MAX_CHANNEL, DEV_NAME);
 	if(rc < 0){
@@ -841,13 +846,13 @@ static int __devinit pt1_pci_init_one (struct pci_dev *pdev,
 
 		switch(channel->type){
 			case CHANNEL_TYPE_ISDB_T:
-				channel->maxsize = CHANEL_DMA_SIZE ;
-				channel->buf = vmalloc(CHANEL_DMA_SIZE);
+				channel->maxsize = CHANNEL_DMA_SIZE ;
+				channel->buf = vmalloc(CHANNEL_DMA_SIZE);
 				channel->pointer = 0;
 				break ;
 			case CHANNEL_TYPE_ISDB_S:
-				channel->maxsize = BS_CHANEL_DMA_SIZE ;
-				channel->buf = vmalloc(BS_CHANEL_DMA_SIZE);
+				channel->maxsize = BS_CHANNEL_DMA_SIZE ;
+				channel->buf = vmalloc(BS_CHANNEL_DMA_SIZE);
 				channel->pointer = 0;
 				break ;
 		}
@@ -936,7 +941,7 @@ static void __devexit pt1_pci_remove_one(struct pci_dev *pdev)
 			if(!(val & (1 << 6))){
 				break ;
 			}
-			schedule_timeout_interruptible(msecs_to_jiffies(1));
+			schedule_timeout_interruptible(msecs_to_jiffies(100));
 		}
 		pt1_dma_free(pdev, dev_conf);
 		for(lp = 0 ; lp < MAX_CHANNEL ; lp++){
@@ -1004,8 +1009,8 @@ static int __init pt1_pci_init(void)
 
 static void __exit pt1_pci_cleanup(void)
 {
-	class_destroy(pt1video_class);
 	pci_unregister_driver(&pt1_driver);
+	class_destroy(pt1video_class);
 }
 
 module_init(pt1_pci_init);

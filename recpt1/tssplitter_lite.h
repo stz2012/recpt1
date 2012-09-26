@@ -37,6 +37,12 @@
 #define C_CHAR_COMMA		','
 #define SECTION_CONTINUE	(1)
 
+typedef struct pmt_version {
+  int pid;
+  int version;
+  int packet;
+} pmt_version;
+
 /**
  * splitter構造体
  */
@@ -49,6 +55,7 @@ typedef struct splitter {
 	int pmt_retain;
 	int pmt_counter;
 	int avail_pmts[MAX_SERVICES];
+	pmt_version pmt_version[MAX_SERVICES];
 	int num_pmts;
 	uint16_t section_remain[MAX_PID];	// セクション残りバイト数
 	uint8_t packet_seq[MAX_PID];	// 巡回カウンタ

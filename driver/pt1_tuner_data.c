@@ -5,8 +5,11 @@
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
+#include <linux/version.h>
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0)
 #include <asm/system.h>
+#endif
 #include <asm/io.h>
 #include <asm/irq.h>
 #include <asm/uaccess.h>
@@ -663,7 +666,7 @@ WBLOCK	bs_15_step3 = {
 WBLOCK	bs_17_step1 = {
 	0,
 	6,
-	{0xFE, 0xC0, 0x45, 0x73, 0xE0, 0x40}
+	{0xFE, 0xC0, 0x45, 0x4C, 0xE0, 0x40}
 };
 WBLOCK	bs_17_step3 = {
 	0,

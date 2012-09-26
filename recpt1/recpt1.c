@@ -21,8 +21,6 @@
 #include <netinet/in.h>
 
 #include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <sys/uio.h>
 #include "pt1_ioctl.h"
 
 #include "config.h"
@@ -82,6 +80,8 @@ char  bs_channel_buf[8];
 ISDB_T_FREQ_CONV_TABLE isdb_t_conv_set = { 0, CHTYPE_SATELLITE, 0, bs_channel_buf };
 
 /* prototypes */
+ISDB_T_FREQ_CONV_TABLE *searchrecoff(char *channel);
+void calc_cn(int fd, int type);
 int tune(char *channel, thread_data *tdata, char *device);
 int close_tuner(thread_data *tdata);
 
@@ -109,7 +109,6 @@ int read_line(int socket, char *p){
     return len;
 }
 
-
 /* ipc message receive */
 void *
 mq_recv(void *t)
@@ -129,8 +128,6 @@ mq_recv(void *t)
 //        fprintf(stderr, "ch=%d time=%d extend=%d\n", ch, recsec, time_to_add);
 
         if(ch && tdata->ch != ch) {
-            /* stop stream */
-            ioctl(tdata->tfd, STOP_REC, 0);
 #if 0
             /* re-initialize decoder */
             if(tdata->decoder) {
@@ -143,17 +140,42 @@ mq_recv(void *t)
                 }
             }
 #endif
-            /* tune to new channel */
-            if(close_tuner(tdata) != 0)
-                return NULL;
+            int current_type = tdata->table->type;
+            ISDB_T_FREQ_CONV_TABLE *table = searchrecoff(channel);
+            if (table == NULL) {
+                fprintf(stderr, "Invalid Channel: %s\n", channel);
+                goto CHECK_TIME_TO_ADD;
+            }
+            tdata->table = table;
+
+            /* stop stream */
+            ioctl(tdata->tfd, STOP_REC, 0);
 
             /* wait for remainder */
             while(tdata->queue->num_used > 0) {
                 usleep(10000);
             }
 
-            tune(channel, tdata, NULL);
+            if (tdata->table->type != current_type) {
+                /* re-open device */
+                if(close_tuner(tdata) != 0)
+                    return NULL;
 
+                tune(channel, tdata, NULL);
+            } else {
+                /* SET_CHANNEL only */
+                const FREQUENCY freq = {
+                  .frequencyno = tdata->table->set_freq,
+                  .slot = tdata->table->add_freq,
+                };
+                if(ioctl(tdata->tfd, SET_CHANNEL, &freq) < 0) {
+                    fprintf(stderr, "Cannot tune to the specified channel\n");
+                    tdata->ch = 0;
+                    goto CHECK_TIME_TO_ADD;
+                }
+                tdata->ch = ch;
+                calc_cn(tdata->tfd, tdata->table->type);
+            }
             /* restart recording */
             if(ioctl(tdata->tfd, START_REC, 0) < 0) {
                 fprintf(stderr, "Tuner cannot start recording\n");
@@ -161,6 +183,7 @@ mq_recv(void *t)
             }
         }
 
+CHECK_TIME_TO_ADD:
         if(time_to_add) {
             tdata->recsec += time_to_add;
             fprintf(stderr, "Extended %d sec\n", time_to_add);
@@ -229,7 +252,7 @@ QUEUE_T *
 create_queue(size_t size)
 {
     QUEUE_T *p_queue;
-    int memsize = sizeof(QUEUE_T) + size * sizeof(BUFSZ);
+    int memsize = sizeof(QUEUE_T) + size * sizeof(BUFSZ*);
 
     p_queue = (QUEUE_T*)calloc(memsize, sizeof(char));
 
@@ -263,18 +286,24 @@ enqueue(QUEUE_T *p_queue, BUFSZ *data)
 {
     struct timeval now;
     struct timespec spec;
-
-    gettimeofday(&now, NULL);
-    spec.tv_sec = now.tv_sec + 1;
-    spec.tv_nsec = now.tv_usec * 1000;
+    int retry_count = 0;
 
     pthread_mutex_lock(&p_queue->mutex);
     /* entered critical section */
 
     /* wait while queue is full */
     while(p_queue->num_avail == 0) {
+
+        gettimeofday(&now, NULL);
+        spec.tv_sec = now.tv_sec + 1;
+        spec.tv_nsec = now.tv_usec * 1000;
+
         pthread_cond_timedwait(&p_queue->cond_avail,
                                &p_queue->mutex, &spec);
+        retry_count++;
+        if(retry_count > 60) {
+            f_exit = TRUE;
+        }
         if(f_exit) {
             pthread_mutex_unlock(&p_queue->mutex);
             return;
@@ -303,18 +332,24 @@ dequeue(QUEUE_T *p_queue)
     struct timeval now;
     struct timespec spec;
     BUFSZ *buffer;
-
-    gettimeofday(&now, NULL);
-    spec.tv_sec = now.tv_sec + 1;
-    spec.tv_nsec = now.tv_usec * 1000;
+    int retry_count = 0;
 
     pthread_mutex_lock(&p_queue->mutex);
     /* entered the critical section*/
 
     /* wait while queue is empty */
     while(p_queue->num_used == 0) {
+
+        gettimeofday(&now, NULL);
+        spec.tv_sec = now.tv_sec + 1;
+        spec.tv_nsec = now.tv_usec * 1000;
+
         pthread_cond_timedwait(&p_queue->cond_used,
                                &p_queue->mutex, &spec);
+        retry_count++;
+        if(retry_count > 60) {
+            f_exit = TRUE;
+        }
         if(f_exit) {
             pthread_mutex_unlock(&p_queue->mutex);
             return NULL;
@@ -356,7 +391,7 @@ reader_func(void *p)
     pthread_t signal_thread = data->signal_thread;
     struct sockaddr_in *addr = NULL;
     BUFSZ *qbuf;
-    splitbuf_t splitbuf;
+    static splitbuf_t splitbuf;
     ARIB_STD_B25_BUFFER sbuf, dbuf, buf;
     int code;
     int split_select_finish = TSS_ERROR;
@@ -426,7 +461,10 @@ reader_func(void *p)
                 }
                 /* 分離対象以外をふるい落とす */
                 code = split_ts(splitter, &buf, &splitbuf);
-                if(code != TSS_SUCCESS) {
+                if(code == TSS_NULL) {
+                    fprintf(stderr, "PMT reading..\n");
+                }
+                else if(code != TSS_SUCCESS) {
                     fprintf(stderr, "split_ts failed\n");
                     break;
                 }
@@ -498,7 +536,12 @@ reader_func(void *p)
             if(use_splitter) {
                 /* 分離対象以外をふるい落とす */
                 code = split_ts(splitter, &buf, &splitbuf);
-                if(code != TSS_SUCCESS) {
+                if(code == TSS_NULL) {
+                    split_select_finish = TSS_ERROR;
+                    fprintf(stderr, "PMT reading..\n");
+                }
+                else if(code != TSS_SUCCESS) {
+                    fprintf(stderr, "split_ts failed\n");
                     break;
                 }
 
@@ -1025,7 +1068,7 @@ main(int argc, char **argv)
             break;
         case 'v':
             fprintf(stderr, "%s %s\n", argv[0], version);
-            fprintf(stderr, "recorder command for PT1/2 digital tuner.\n");
+            fprintf(stderr, "recorder command for PT1/2/3 digital tuner.\n");
             exit(0);
             break;
         case 'l':
@@ -1432,7 +1475,6 @@ main(int argc, char **argv)
 
     time(&tdata.start_time);
 
-
     /* read from tuner */
     while(1) {
         if(f_exit)
@@ -1452,6 +1494,7 @@ main(int argc, char **argv)
                 break;
             }
             else {
+                free(bufptr);
                 continue;
             }
         }
