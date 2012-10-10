@@ -40,9 +40,6 @@
 /* ipc message size */
 #define MSGSZ     255
 
-#define ISDB_T_NODE_LIMIT 24        // 32:ARIB limit 24:program maximum
-#define ISDB_T_SLOT_LIMIT 8
-
 /* type definitions */
 typedef int boolean;
 

@@ -49,6 +49,8 @@ typedef struct thread_data {
 /* globals */
 boolean f_exit = FALSE;
 boolean use_bell = FALSE;
+char  bs_channel_buf[8];
+ISDB_T_FREQ_CONV_TABLE isdb_t_conv_set = { 0, CHTYPE_SATELLITE, 0, bs_channel_buf };
 
 /* prototypes */
 int tune(char *channel, thread_data *tdata, char *device);
@@ -114,6 +116,29 @@ searchrecoff(char *channel)
 {
     int lp;
 
+    if(channel[0] == 'B' && channel[1] == 'S') {
+        int node = 0;
+        int slot = 0;
+        char *bs_ch;
+
+        bs_ch = channel + 2;
+        while(isdigit(*bs_ch)) {
+            node *= 10;
+            node += *bs_ch++ - '0';
+        }
+        if(*bs_ch == '_' && (node&0x01) && node < ISDB_T_NODE_LIMIT) {
+            if(isdigit(*++bs_ch)) {
+                slot = *bs_ch - '0';
+                if(*++bs_ch == '\0' && slot < ISDB_T_SLOT_LIMIT) {
+                    isdb_t_conv_set.set_freq = node / 2;
+                    isdb_t_conv_set.add_freq = slot;
+                    sprintf(bs_channel_buf, "BS%d_%d", node, slot);
+                    return &isdb_t_conv_set;
+                }
+            }
+        }
+        return NULL;
+    }
     for(lp = 0; isdb_t_conv_table[lp].parm_freq != NULL; lp++) {
         /* return entry number in the table when strings match and
          * lengths are same. */

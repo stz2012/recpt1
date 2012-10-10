@@ -148,7 +148,8 @@ main(int argc, char **argv)
     int msqid;
     int msgflg = IPC_CREAT | 0666;
     key_t key = 0;
-    int channel=0, recsec = 0, extsec=0;
+    char *channel = NULL;
+    int ch=0, recsec = 0, extsec=0;
     message_buf sbuf;
     size_t buf_length;
 
@@ -193,8 +194,12 @@ main(int argc, char **argv)
             fprintf(stderr, "Pid = %d\n", key);
             break;
         case 'c':
-            channel = atoi(optarg);
-            fprintf(stderr, "Channel = %d\n", channel);
+            channel = optarg;
+            ch = atoi(channel);
+            if (ch)
+                fprintf(stderr, "Channel = %d\n", ch);
+            else
+                fprintf(stderr, "Channel = %s\n", channel);
             break;
         case 'e':
             parse_time(optarg, &extsec);
@@ -219,7 +224,10 @@ main(int argc, char **argv)
     }
 
     sbuf.mtype = 1;
-    sprintf(sbuf.mtext, "ch=%d t=%d e=%d", channel, recsec, extsec);
+    if (ch)
+        sprintf(sbuf.mtext, "ch=%d t=%d e=%d", ch, recsec, extsec);
+    else
+        sprintf(sbuf.mtext, "ch=%s t=%d e=%d", channel, recsec, extsec);
 
     buf_length = strlen(sbuf.mtext) + 1 ;
 
