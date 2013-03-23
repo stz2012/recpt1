@@ -65,7 +65,7 @@ typedef struct splitter {
 typedef struct _splitbuf_t
 {
     int size;
-    u_char buffer[1024*1024];
+    u_char buffer[32*1024*1024];
 } splitbuf_t;
 
 splitter* split_startup(char *sid);
