@@ -314,7 +314,7 @@ int split_ts(
 	int version = 0;
 
 	/* 初期化 */
-	dbuf->size = 0;
+	dbuf->buffer_filled = 0;
 	if (sbuf->size < 0) {
 		return TSS_ERROR;
 	}
@@ -342,7 +342,7 @@ int split_ts(
 
 			memcpy(dptr + d_offset, splitter->pat, LENGTH_PACKET);
 			d_offset += LENGTH_PACKET;
-			dbuf->size += LENGTH_PACKET;
+			dbuf->buffer_filled += LENGTH_PACKET;
 			break;
 		default:
 		    if(0 != splitter->pmt_pids[pid]) {
@@ -372,7 +372,7 @@ int split_ts(
 			if(0 != splitter->pids[pid]) {
 				memcpy(dptr + d_offset, sptr + s_offset, LENGTH_PACKET);
 				d_offset += LENGTH_PACKET;
-				dbuf->size += LENGTH_PACKET;
+				dbuf->buffer_filled += LENGTH_PACKET;
 			}
 			break;
 		} /* switch */
@@ -461,8 +461,6 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 					sp->pmt_version[sp->pmt_retain].pid = pid;
 					sp->pmt_retain += 1;
 					sprintf(chosen_sid, "%s %d", *chosen_sid ? chosen_sid : "", service_id);
-					p++;
-					continue;
 				}
 				else if(!strcasecmp(*p, "hd") || !strcasecmp(*p, "sd1")) {
 					/* hd/sd1 指定時には1番目のサービスを保存する */
@@ -476,8 +474,6 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 						sp->pmt_retain += 1;
 						sprintf(chosen_sid, "%s %d", *chosen_sid ? chosen_sid : "", service_id);
 					}
-					p++;
-					continue;
 				}
 				else if(!strcasecmp(*p, "sd2")) {
 					/* sd2 指定時には2番目のサービスを保存する */
@@ -491,8 +487,6 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 						sp->pmt_retain += 1;
 						sprintf(chosen_sid, "%s %d", *chosen_sid ? chosen_sid : "", service_id);
 					}
-					p++;
-					continue;
 				}
 				else if(!strcasecmp(*p, "sd3")) {
 					/* sd3 指定時には3番目のサービスを保存する */
@@ -506,8 +500,6 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 						sp->pmt_retain += 1;
 						sprintf(chosen_sid, "%s %d", *chosen_sid ? chosen_sid : "", service_id);
 					}
-					p++;
-					continue;
 				}
 				else if(!strcasecmp(*p, "1seg")) {
 					/* 1seg 指定時には PMTPID=0x1FC8 のサービスを保存する */
@@ -521,8 +513,6 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 						sp->pmt_retain += 1;
 						sprintf(chosen_sid, "%s %d", *chosen_sid ? chosen_sid : "", service_id);
 					}
-					p++;
-					continue;
 				}
 				else if(!strcasecmp(*p, "all")) {
 					/* all指定時には全保存する */
@@ -541,9 +531,15 @@ static int AnalyzePat(splitter *sp, unsigned char *buf)
 					sid_found    = TRUE;
 					*(pids+0x11) = 1;
 					*(pids+0x12) = 1;
-					*(pids+0x23) = 1;
-					*(pids+0x29) = 1;
-					break;
+					*(pids+0x23) = 1;         // SDTT
+					*(pids+0x29) = 1;         // CDT
+				}
+				else if(!strcasecmp(*p, "epg1seg")) {
+					/* ワンセグ用epg抽出に必要なPIDのみを保存する */
+					sid_found    = TRUE;
+					*(pids+0x11) = 1;
+//					*(pids+0x26) = 1;         // 車載用epg 規格のみで未送出のもよう
+					*(pids+0x27) = 1;
 				}
 
 				p++;
@@ -740,7 +736,7 @@ static int AnalyzePmt(splitter *sp, unsigned char *buf, unsigned char mark)
 		N = payload_offset;
 	}
 	sp->packet_seq[pid] = buf[3] & 0x0F;				// 巡回カウンタ
-	
+
 	Nall = sp->section_remain[pid];
 	if(Nall > LENGTH_PACKET - payload_offset)
 		Nall = LENGTH_PACKET - payload_offset;

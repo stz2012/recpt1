@@ -1064,7 +1064,7 @@ WBLOCK_BS_PLL	bs_pll[MAX_BS_CHANNEL] = {
 	{{&bs_17_step1, &bs_com_step2, &bs_17_step3}},
 	{{&bs_19_step1, &bs_com_step2, &bs_19_step3}},
 	{{&bs_21_step1, &bs_com_step2, &bs_21_step3}},
-	{{&bs_23_step1, &bs_com_step2, &bs_21_step3}},
+	{{&bs_23_step1, &bs_com_step2, &bs_23_step3}},
 	{{&nd_2_step1, &bs_com_step2, &nd_2_step3}},
 	{{&nd_4_step1, &bs_com_step2, &nd_4_step3}},
 	{{&nd_6_step1, &bs_com_step2, &nd_6_step3}},

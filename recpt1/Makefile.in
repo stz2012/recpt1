@@ -8,19 +8,19 @@ TARGET = recpt1
 TARGET2 = recpt1ctl
 TARGET3 = checksignal
 TARGETS = $(TARGET) $(TARGET2) $(TARGET3)
-RELEASE_VERSION = "b14397800eae_with_http_server_RC4 by stz2012"
+RELEASE_VERSION = "c8688d7d6382_with_http_server_RC4 by stz2012"
 
 CPPFLAGS = -I../driver -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
 CFLAGS   = -O2 -g -pthread
 
 LIBS     = @LIBS@
-LIBS2    =
+LIBS2    = -lm
 LIBS3    = -lpthread -lm
 LDFLAGS  =
 
-OBJS  = recpt1.o decoder.o mkpath.o tssplitter_lite.o
-OBJS2 = recpt1ctl.o
-OBJS3 = checksignal.o
+OBJS  = recpt1.o decoder.o mkpath.o tssplitter_lite.o recpt1core.o
+OBJS2 = recpt1ctl.o recpt1core.o
+OBJS3 = checksignal.o recpt1core.o
 OBJALL = $(OBJS) $(OBJS2) $(OBJS3)
 DEPEND = .deps
 

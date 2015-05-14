@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([recpt1], [1.0.0], yaz@honeyplanet.jp)
+AC_INIT([recpt1], [1.2.0], yaz@honeyplanet.jp)
 AC_CONFIG_SRCDIR([recpt1.c])
 AC_CONFIG_HEADERS([config.h])
 

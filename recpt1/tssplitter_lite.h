@@ -64,8 +64,9 @@ typedef struct splitter {
 /* b25 decoder would hoard up large chank */
 typedef struct _splitbuf_t
 {
-    int size;
-    u_char buffer[32*1024*1024];
+	u_char* buffer;
+	int buffer_size;
+	int buffer_filled;
 } splitbuf_t;
 
 splitter* split_startup(char *sid);
