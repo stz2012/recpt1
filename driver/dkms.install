@@ -1,0 +1,7 @@
+. ./dkms.uninstall
+
+su -c "
+cp -a `pwd` /usr/src/$PACKAGE_NAME-$PACKAGE_VERSION;
+dkms add -m $PACKAGE_NAME -v $PACKAGE_VERSION;
+dkms build -m $PACKAGE_NAME -v $PACKAGE_VERSION;
+dkms install -m $PACKAGE_NAME -v $PACKAGE_VERSION"
