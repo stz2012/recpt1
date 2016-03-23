@@ -1,6 +1,5 @@
 /* -*- tab-width: 4; indent-tabs-mode: t -*- */
 /* pt1-pci.c: A PT1 on PCI bus driver for Linux. */
-#define DRV_NAME	"pt1-pci"
 #include "version.h"
 
 #include <linux/module.h>
