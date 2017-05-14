@@ -897,7 +897,7 @@ main(int argc, char **argv)
                 sid_list = sidflg;
             fprintf(stderr,"channel is %s\n",channel);
 
-            if(!strcmp(sid_list,"all")){
+            if(sid_list == NULL || !strcmp(sid_list,"all")){
                 use_splitter = FALSE;
                 splitter = NULL;
             }else{
