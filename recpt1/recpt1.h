@@ -15,12 +15,12 @@
 #define ISDB_T_NODE_LIMIT 24        // 32:ARIB limit 24:program maximum
 #define ISDB_T_SLOT_LIMIT 8
 
-typedef struct _BUFSZ {
+typedef struct {
     int size;
     u_char buffer[MAX_READ_SIZE];
 } BUFSZ;
 
-typedef struct _QUEUE_T {
+typedef struct {
     unsigned int in;        // 次に入れるインデックス
     unsigned int out;        // 次に出すインデックス
     unsigned int size;        // キューのサイズ
@@ -32,7 +32,7 @@ typedef struct _QUEUE_T {
     BUFSZ *buffer[1];    // バッファポインタ
 } QUEUE_T;
 
-typedef struct _ISDB_T_FREQ_CONV_TABLE {
+typedef struct {
     int set_freq;    // 実際にioctl()を行う値
     int type;        // チャンネルタイプ
     int add_freq;    // 追加する周波数(BS/CSの場合はスロット番号)
