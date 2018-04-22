@@ -8,6 +8,7 @@
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
+#include <linux/vmalloc.h>
 #include <linux/version.h>
 #include <linux/mutex.h>
 
