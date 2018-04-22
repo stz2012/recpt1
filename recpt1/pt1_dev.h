@@ -41,7 +41,7 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   0, CHTYPE_SATELLITE, 0, "151"},  /* 151ch：BS朝日 */
     {   0, CHTYPE_SATELLITE, 1, "161"},  /* 161ch：BS-TBS */
     {   1, CHTYPE_SATELLITE, 0, "191"},  /* 191ch：WOWOW prime */
-    {   1, CHTYPE_SATELLITE, 1, "171"},  /* 171ch：BSジャパン */
+    {   0, CHTYPE_SATELLITE, 2, "171"},  /* 171ch：BSジャパン */
     {   2, CHTYPE_SATELLITE, 0, "192"},  /* 192ch：WOWOWライブ */
     {   2, CHTYPE_SATELLITE, 1, "193"},  /* 193ch：WOWOWシネマ */
     {   3, CHTYPE_SATELLITE, 0, "201"},  /* 201ch：スター・チャンネル2 */

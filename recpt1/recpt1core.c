@@ -197,8 +197,8 @@ show_channels(void)
 
     fprintf(stderr, "BS01_0: BS朝日\n");
     fprintf(stderr, "BS01_1: BS-TBS\n");
+    fprintf(stderr, "BS01_2: BSジャパン\n");
     fprintf(stderr, "BS03_0: WOWOWプライム\n");
-    fprintf(stderr, "BS03_1: BSジャパン\n");
     fprintf(stderr, "BS05_0: WOWOWライブ\n");
     fprintf(stderr, "BS05_1: WOWOWシネマ\n");
     fprintf(stderr, "BS07_0: スターチャンネル2/3\n");
