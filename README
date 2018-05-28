@@ -24,11 +24,9 @@ BS01_1: BS-TBS
 BS01_2: BSジャパン
 BS03_0: WOWOWプライム
 BS03_1: NHK BSプレミアム
+BS03_2: ディズニーチャンネル
 BS05_0: WOWOWライブ
 BS05_1: WOWOWシネマ
-BS07_0: スターチャンネル2/3
-BS07_1: BSアニマックス
-BS07_2: ディズニーチャンネル
 BS09_0: BS11
 BS09_1: スターチャンネル1
 BS09_2: TwellV
@@ -37,9 +35,9 @@ BS11_1: BSスカパー!
 BS11_2: 放送大学
 BS13_0: BS日テレ
 BS13_1: BSフジ
+BS13_2: BSアニマックス
 BS15_0: NHK BS1
-BS17_0: 地デジ難視聴1(NHK/NHK-E/CX)
-BS17_1: 地デジ難視聴2(NTV/TBS/EX/TX)
+BS15_1: スターチャンネル2/3
 BS19_0: グリーンチャンネル
 BS19_1: J SPORTS 1
 BS19_2: J SPORTS 2

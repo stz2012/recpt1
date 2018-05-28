@@ -200,11 +200,9 @@ show_channels(void)
     fprintf(stderr, "BS01_2: BSジャパン\n");
     fprintf(stderr, "BS03_0: WOWOWプライム\n");
     fprintf(stderr, "BS03_1: NHK BSプレミアム\n");
+    fprintf(stderr, "BS03_2: ディズニーチャンネル\n");
     fprintf(stderr, "BS05_0: WOWOWライブ\n");
     fprintf(stderr, "BS05_1: WOWOWシネマ\n");
-    fprintf(stderr, "BS07_0: スターチャンネル2/3\n");
-    fprintf(stderr, "BS07_1: BSアニマックス\n");
-    fprintf(stderr, "BS07_2: ディズニーチャンネル\n");
     fprintf(stderr, "BS09_0: BS11\n");
     fprintf(stderr, "BS09_1: スターチャンネル1\n");
     fprintf(stderr, "BS09_2: TwellV\n");
@@ -213,9 +211,9 @@ show_channels(void)
     fprintf(stderr, "BS11_2: 放送大学\n");
     fprintf(stderr, "BS13_0: BS日テレ\n");
     fprintf(stderr, "BS13_1: BSフジ\n");
+    fprintf(stderr, "BS13_2: BSアニマックス\n");
     fprintf(stderr, "BS15_0: NHK BS1\n");
-    fprintf(stderr, "BS17_0: 地デジ難視聴1(NHK/NHK-E/CX)\n");
-    fprintf(stderr, "BS17_1: 地デジ難視聴2(NTV/TBS/EX/TX)\n");
+    fprintf(stderr, "BS15_1: スターチャンネル2/3\n");
     fprintf(stderr, "BS19_0: グリーンチャンネル\n");
     fprintf(stderr, "BS19_1: J SPORTS 1\n");
     fprintf(stderr, "BS19_2: J SPORTS 2\n");
