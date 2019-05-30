@@ -11,13 +11,16 @@
 #include <linux/vmalloc.h>
 #include <linux/version.h>
 #include <linux/mutex.h>
+#include <linux/uaccess.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0)
 #include <asm/system.h>
 #endif
 #include <asm/io.h>
 #include <asm/irq.h>
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0)
 #include <asm/uaccess.h>
+#endif
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,23)
 #include <linux/freezer.h>
@@ -49,6 +52,10 @@ typedef struct pm_message {
 #define __devinitdata
 #define __devexit
 #define __devexit_p
+#endif
+
+#if LINUX_VERSION_CODE > KERNEL_VERSION(4,2,0)
+#include <linux/vmalloc.h>
 #endif
 
 /* These identify the driver base version and may not be removed. */
@@ -524,7 +531,7 @@ static int count_used_bs_tuners(PT1_DEVICE *device)
 static long pt1_do_ioctl(struct file  *file, unsigned int cmd, unsigned long arg0)
 {
 	PT1_CHANNEL	*channel = file->private_data;
-	int		signal;
+	int		signal = 0;
 	unsigned long	dummy;
 	void		*arg = (void *)arg0;
 	int		lnb_eff, lnb_usr;
