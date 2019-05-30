@@ -22,12 +22,7 @@ clean-files := *.o *.ko *.mod.[co] *~ version.h
 
 version.h:
 	eval `sed -e "s/\[0\]//" ./dkms.conf`; \
-	GREV=`git rev-list HEAD | wc -l 2> /dev/null`; \
-	if [ $$GREV != 0 ] ; then \
-		printf "#define DRV_VERSION \"$${PACKAGE_VERSION}rev$$GREV\"\n#define DRV_RELDATE \"`git show --date=short --format=%ad | sed -n '1p' 2> /dev/null`\"\n#define DRV_NAME \"$${BUILT_MODULE_NAME}\"\n" > $@; \
-	else \
-		printf "#define DRV_VERSION \"$${PACKAGE_VERSION}\"\n#define DRV_RELDATE \"$$PACKAGE_RELDATE\"\n#define DRV_NAME \"$${BUILT_MODULE_NAME}\"\n" > $@; \
-	fi
+	printf "#define DRV_VERSION \"$${PACKAGE_VERSION}\"\n#define DRV_RELDATE \"$$PACKAGE_RELDATE\"\n#define DRV_NAME \"$${BUILT_MODULE_NAME}\"\n" > $@;
 
 uninstall:
 	rm -vf $(INSTALL_DIR)/$(TARGET)* /etc/udev/rules.d/99-pt1.rules
