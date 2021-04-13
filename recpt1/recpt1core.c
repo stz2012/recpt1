@@ -208,6 +208,7 @@ show_channels(void)
     fprintf(stderr, "BS09_2: TwellV\n");
     fprintf(stderr, "BS11_1: BSスカパー!\n");
     fprintf(stderr, "BS11_2: 放送大学\n");
+    fprintf(stderr, "BS11_3: BS釣りビジョン\n");
     fprintf(stderr, "BS13_0: BS日テレ\n");
     fprintf(stderr, "BS13_1: BSフジ\n");
     fprintf(stderr, "BS13_2: BSアニマックス\n");
@@ -218,9 +219,8 @@ show_channels(void)
     fprintf(stderr, "BS19_2: J SPORTS 2\n");
     fprintf(stderr, "BS19_3: J SPORTS 3\n");
     fprintf(stderr, "BS21_0: IMAGICA BS\n");
+    fprintf(stderr, "BS21_1: 日本映画専門チャンネル\n");
     fprintf(stderr, "BS21_2: グリーンチャンネル\n");
-    fprintf(stderr, "BS23_0: BS釣りビジョン\n");
-    fprintf(stderr, "BS23_1: 日本映画専門チャンネル\n");
     fprintf(stderr, "C13-C63: CATV Channels\n");
     fprintf(stderr, "CS2-CS24: CS Channels\n");
 }

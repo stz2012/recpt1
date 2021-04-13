@@ -61,6 +61,7 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   5, CHTYPE_SATELLITE, 2, "231"},  /* 231ch：放送大学テレビ1 */
     {   5, CHTYPE_SATELLITE, 2, "232"},  /* 232ch：放送大学テレビ2 */
     {   5, CHTYPE_SATELLITE, 2, "531"},  /* 531ch：放送大学ラジオ */
+    {   5, CHTYPE_SATELLITE, 3, "251"},  /* 251ch：BS釣りビジョン */
     {   6, CHTYPE_SATELLITE, 0, "141"},  /* 141ch：BS日テレ */
     {   6, CHTYPE_SATELLITE, 1, "181"},  /* 181ch：BSフジ */
     {   6, CHTYPE_SATELLITE, 2, "236"},  /* 236ch：BSアニマックス */
@@ -73,9 +74,8 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   9, CHTYPE_SATELLITE, 2, "243"},  /* 243ch：J SPORTS 2 */
     {   9, CHTYPE_SATELLITE, 3, "244"},  /* 244ch：J SPORTS 3 */
     {  10, CHTYPE_SATELLITE, 0, "252"},  /* 252ch：IMAGICA BS */
+    {  10, CHTYPE_SATELLITE, 1, "255"},  /* 255ch：日本映画専門チャンネル */
     {  10, CHTYPE_SATELLITE, 2, "234"},  /* 234ch：グリーンチャンネル */
-    {  11, CHTYPE_SATELLITE, 0, "251"},  /* 251ch：BS釣りビジョン */
-    {  11, CHTYPE_SATELLITE, 1, "255"},  /* 255ch：日本映画専門チャンネル */
     {   7, CHTYPE_SATELLITE, 1, "910"},  /* 910ch：ウェザーニュース(WNI)*/
     {   8, CHTYPE_SATELLITE, 2, "291"},  /* 291ch：NHK総合テレビジョン（東京）*/
     {   8, CHTYPE_SATELLITE, 2, "292"},  /* 292ch：NHK教育テレビジョン（東京）*/
