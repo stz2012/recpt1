@@ -22,7 +22,15 @@ char *bsdev[NUM_BSDEV] = {
     "/dev/px4video0",
     "/dev/px4video1",
     "/dev/px4video4",
-    "/dev/px4video5"
+    "/dev/px4video5",
+    "/dev/asv52201",
+    "/dev/asv52200",
+    "/dev/asv52205",
+    "/dev/asv52204",
+    "/dev/asv52209",
+    "/dev/asv52208",
+    "/dev/asv522013",
+    "/dev/asv522012",
 };
 char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pt1video2",
@@ -44,7 +52,16 @@ char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/px4video2",
     "/dev/px4video3",
     "/dev/px4video6",
-    "/dev/px4video7"
+    "/dev/px4video7",
+    "/dev/asv52202",
+    "/dev/asv52203",
+    "/dev/asv52206",
+    "/dev/asv52207",
+    "/dev/asv522010",
+    "/dev/asv522011",
+    "/dev/asv522014",
+    "/dev/asv522015",
+    
 };
 
 // 変換テーブル(ISDB-T用)
