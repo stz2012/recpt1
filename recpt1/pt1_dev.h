@@ -42,6 +42,7 @@ char *bsdev[NUM_BSDEV] = {
     "/dev/pxw3u30",  
     "/dev/pxw3u32",
     "/dev/pxs3u20",  
+    "/dev/pxs3u0",  
 };
 char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pt1video2",
@@ -83,6 +84,7 @@ char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pxw3u31", 
     "/dev/pxw3u33",
     "/dev/pxs3u21",  
+    "/dev/pxs3u1",  
     
 };
 
