@@ -43,6 +43,23 @@ char *bsdev[NUM_BSDEV] = {
     "/dev/pxw3u32",
     "/dev/pxs3u20",  
     "/dev/pxs3u0",  
+
+    "/dev/px4-DTV0",
+    "/dev/px4-DTV1",
+    "/dev/px4-DTV4",
+    "/dev/px4-DTV5",
+    "/dev/px4-DTV8",
+    "/dev/px4-DTV9",
+    "/dev/px4-DTV12",
+    "/dev/px4-DTV13",
+    "/dev/px4-DTV16",
+    "/dev/px4-DTV17",
+    "/dev/px4-DTV20",
+    "/dev/px4-DTV21",
+    "/dev/px4-DTV24",
+    "/dev/px4-DTV25",
+    "/dev/px4-DTV28",
+    "/dev/px4-DTV29",
 };
 char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pt1video2",
@@ -85,6 +102,23 @@ char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pxw3u33",
     "/dev/pxs3u21",  
     "/dev/pxs3u1",  
+
+    "/dev/px4-DTV2",
+    "/dev/px4-DTV3",
+    "/dev/px4-DTV6",
+    "/dev/px4-DTV7",
+    "/dev/px4-DTV10",
+    "/dev/px4-DTV11",
+    "/dev/px4-DTV14",
+    "/dev/px4-DTV15",
+    "/dev/px4-DTV18",
+    "/dev/px4-DTV19",
+    "/dev/px4-DTV22",
+    "/dev/px4-DTV23",
+    "/dev/px4-DTV26",
+    "/dev/px4-DTV27",
+    "/dev/px4-DTV30",
+    "/dev/px4-DTV31",
     
 };
 
