@@ -31,6 +31,14 @@ char *bsdev[NUM_BSDEV] = {
     "/dev/asv52208",
     "/dev/asv522013",
     "/dev/asv522012",
+    "/dev/pxq3pe0",
+    "/dev/pxq3pe1",
+    "/dev/pxq3pe4",
+    "/dev/pxq3pe5",
+    "/dev/pxq3pe8",
+    "/dev/pxq3pe9",
+    "/dev/pxq3pe12",
+    "/dev/pxq3pe13",
 };
 char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/pt1video2",
@@ -61,6 +69,14 @@ char *isdb_t_dev[NUM_ISDB_T_DEV] = {
     "/dev/asv522011",
     "/dev/asv522014",
     "/dev/asv522015",
+    "/dev/pxq3pe2",
+    "/dev/pxq3pe3",
+    "/dev/pxq3pe6",
+    "/dev/pxq3pe7",
+    "/dev/pxq3pe10",
+    "/dev/pxq3pe11",
+    "/dev/pxq3pe14",
+    "/dev/pxq3pe15",
     
 };
 
