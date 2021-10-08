@@ -685,8 +685,8 @@ static int AnalyzePmt(splitter *sp, unsigned char *buf, unsigned char mark)
 	unsigned char* pids					// [out]	出力対象 PID 情報
 #endif
 {
-	unsigned char Nall;
-	unsigned char N;
+	uint16_t Nall;
+	uint16_t N;
 	int pcr;
 	int epid;
 	int pid;
