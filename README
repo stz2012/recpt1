@@ -21,32 +21,33 @@ make
 13-62: Terrestrial Channels
 BS01_0: BS朝日
 BS01_1: BS-TBS
-BS01_2: BSジャパン
+BS01_2: BSテレ東
 BS03_0: WOWOWプライム
-BS03_1: NHK BSプレミアム
-BS03_2: ディズニーチャンネル
+BS03_1: NHKBSプレミアム
 BS05_0: WOWOWライブ
 BS05_1: WOWOWシネマ
-BS09_0: BS11
+BS09_0: BS11イレブン
 BS09_1: スターチャンネル1
-BS09_2: TwellV
-BS11_0: FOX bs238
-BS11_1: BSスカパー!
-BS11_2: 放送大学
+BS09_2: BS12トゥエルビ
+BS11_0: BSスカパー!
+BS11_1: 放送大学
+BS11_2: BS釣りビジョン
 BS13_0: BS日テレ
 BS13_1: BSフジ
 BS13_2: BSアニマックス
-BS15_0: NHK BS1
+BS15_0: NHKBS1
 BS15_1: スターチャンネル2/3
-BS19_0: グリーンチャンネル
+BS19_0: J SPORTS 4
 BS19_1: J SPORTS 1
 BS19_2: J SPORTS 2
-BS21_0: IMAGICA BS
-BS21_1: J SPORTS 3
-BS21_2: J SPORTS 4
-BS23_0: BS釣りビジョン
-BS23_1: 日本映画専門チャンネル
-BS23_2: D-Life
+BS19_3: J SPORTS 3
+BS21_0: WOWOWプラス
+BS21_1: 日本映画専門ch
+BS21_2: グリーンチャンネル
+BS23_0: ディズニーch
+BS23_1: BSよしもと
+BS23_2: BSJapanext
+BS23_3: BS松竹東急
 C13-C63: CATV Channels
 CS2-CS24: CS Channels
 
