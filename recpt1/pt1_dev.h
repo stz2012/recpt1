@@ -204,11 +204,10 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   4, CHTYPE_SATELLITE, 0, "211"},  /* 211ch：BS11イレブン */
     {   4, CHTYPE_SATELLITE, 1, "200"},  /* 200ch：スター・チャンネル1 */
     {   4, CHTYPE_SATELLITE, 2, "222"},  /* 222ch：BS12トゥエルビ */
-    {   5, CHTYPE_SATELLITE, 0, "241"},  /* 241ch：BSスカパー！ */
-    {   5, CHTYPE_SATELLITE, 1, "231"},  /* 231ch：放送大学ex */
-    {   5, CHTYPE_SATELLITE, 1, "232"},  /* 232ch：放送大学on */
-    {   5, CHTYPE_SATELLITE, 1, "531"},  /* 531ch：放送大学ラジオ */
-    {   5, CHTYPE_SATELLITE, 2, "251"},  /* 251ch：BS釣りビジョン */
+    {   5, CHTYPE_SATELLITE, 0, "231"},  /* 231ch：放送大学ex */
+    {   5, CHTYPE_SATELLITE, 0, "232"},  /* 232ch：放送大学on */
+    {   5, CHTYPE_SATELLITE, 0, "531"},  /* 531ch：放送大学ラジオ */
+    {   5, CHTYPE_SATELLITE, 1, "251"},  /* 251ch：BS釣りビジョン */
     {   6, CHTYPE_SATELLITE, 0, "141"},  /* 141ch：BS日テレ */
     {   6, CHTYPE_SATELLITE, 1, "181"},  /* 181ch：BSフジ */
     {   6, CHTYPE_SATELLITE, 2, "236"},  /* 236ch：BSアニマックス */
