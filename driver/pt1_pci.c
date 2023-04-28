@@ -62,7 +62,7 @@ typedef struct pm_message {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,18,0)
 static inline void *pci_alloc_consistent(struct pci_dev *hwdev, size_t size, dma_addr_t *dma_handle)
 {
-	return dma_alloc_coherent(&hwdev->dev, size, dma_handle, GFP_ATOMIC);
+	return dma_alloc_coherent(&hwdev->dev, size, dma_handle, GFP_KERNEL);
 }
 
 static inline void pci_free_consistent(struct pci_dev *hwdev, size_t size, void *vaddr, dma_addr_t dma_handle)
@@ -72,12 +72,7 @@ static inline void pci_free_consistent(struct pci_dev *hwdev, size_t size, void 
 
 static inline int pci_set_dma_mask(struct pci_dev *hwdev, u64 mask)
 {
-	if (!dma_supported(&hwdev->dev, mask))
-		return -EIO;
-
-	hwdev->dma_mask = mask;
-
-	return 0;
+	return dma_set_mask(&hwdev->dev, mask);
 }
 #endif
 
