@@ -198,23 +198,20 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   0, CHTYPE_SATELLITE, 1, "161"},  /* 161ch：BS-TBS */
     {   0, CHTYPE_SATELLITE, 2, "171"},  /* 171ch：BSテレ東 */
     {   1, CHTYPE_SATELLITE, 0, "191"},  /* 191ch：WOWOWプライム */
-    {   1, CHTYPE_SATELLITE, 1, "103"},  /* 103ch：NHKBSプレミアム*/
+    {   1, CHTYPE_SATELLITE, 1, "236"},  /* 236ch：BSアニマックス */
+    {   1, CHTYPE_SATELLITE, 2, "251"},  /* 251ch：BS釣りビジョン */
     {   2, CHTYPE_SATELLITE, 0, "192"},  /* 192ch：WOWOWライブ */
     {   2, CHTYPE_SATELLITE, 1, "193"},  /* 193ch：WOWOWシネマ */
     {   4, CHTYPE_SATELLITE, 0, "211"},  /* 211ch：BS11イレブン */
-    {   4, CHTYPE_SATELLITE, 1, "200"},  /* 200ch：スター・チャンネル1 */
     {   4, CHTYPE_SATELLITE, 2, "222"},  /* 222ch：BS12トゥエルビ */
-    {   5, CHTYPE_SATELLITE, 0, "231"},  /* 231ch：放送大学ex */
-    {   5, CHTYPE_SATELLITE, 0, "232"},  /* 232ch：放送大学on */
-    {   5, CHTYPE_SATELLITE, 0, "531"},  /* 531ch：放送大学ラジオ */
-    {   5, CHTYPE_SATELLITE, 1, "251"},  /* 251ch：BS釣りビジョン */
+    {   6, CHTYPE_SATELLITE, 2, "231"},  /* 231ch：放送大学ex */
+    {   6, CHTYPE_SATELLITE, 2, "232"},  /* 232ch：放送大学on */
+    {   6, CHTYPE_SATELLITE, 2, "531"},  /* 531ch：放送大学ラジオ */
     {   6, CHTYPE_SATELLITE, 0, "141"},  /* 141ch：BS日テレ */
     {   6, CHTYPE_SATELLITE, 1, "181"},  /* 181ch：BSフジ */
-    {   6, CHTYPE_SATELLITE, 2, "236"},  /* 236ch：BSアニマックス */
     {   7, CHTYPE_SATELLITE, 0, "101"},  /* 101ch：NHKBS1 */
     {   7, CHTYPE_SATELLITE, 0, "102"},  /* 102ch：NHKBS1 */
-    {   7, CHTYPE_SATELLITE, 1, "201"},  /* 201ch：スター・チャンネル2 */
-    {   7, CHTYPE_SATELLITE, 1, "202"},  /* 202ch：スター・チャンネル3 */
+    {   7, CHTYPE_SATELLITE, 1, "200"},  /* 200ch：スター・チャンネル */
     {   9, CHTYPE_SATELLITE, 0, "245"},  /* 245ch：J SPORTS 4 */
     {   9, CHTYPE_SATELLITE, 1, "242"},  /* 242ch：J SPORTS 1 */
     {   9, CHTYPE_SATELLITE, 2, "243"},  /* 243ch：J SPORTS 2 */
@@ -227,83 +224,71 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {  11, CHTYPE_SATELLITE, 2, "263"},  /* 263ch：BSJapanext */
     {  11, CHTYPE_SATELLITE, 3, "260"},  /* 260ch：BS松竹東急 */
     {  12, CHTYPE_SATELLITE, 0, "CS2"},  /* ND2：
-                                          * 237ch：スター・チャンネル プラス
-                                          * 239ch：日本映画専門チャンネルHD
-                                          * 306ch：フジテレビNEXT */
+                                          * 296ch：TBSチャンネル1
+                                          * 298ch：テレ朝チャンネル1
+                                          * 299ch：テレ朝チャンネル2
+                                          * 339ch：ディズニージュニア */
     {  13, CHTYPE_SATELLITE, 0, "CS4"},  /* ND4：
-                                          * 100ch：e2プロモ
-                                          * 256ch：J sports ESPN
-                                          * 312ch：FOX
-                                          * 322ch：スペースシャワーTV
-                                          * 331ch：カートゥーンネットワーク
-                                          * 294ch：ホームドラマチャンネル
-                                          * 334ch：トゥーン・ディズニー */
-    {  14, CHTYPE_SATELLITE, 0, "CS6"},  /* ND6：
-                                          * 221ch：東映チャンネル
-                                          * 222ch：衛星劇場
-                                          * 223ch：チャンネルNECO
-                                          * 224ch：洋画★シネフィル・イマジカ
+                                          * 250ch：スカイA
                                           * 292ch：時代劇専門チャンネル
-                                          * 238ch：スター・チャンネル クラシック
-                                          * 310ch：スーパー！ドラマTV
-                                          * 311ch：AXN
-                                          * 250ch：スカイ・Asports＋ */
-    {  15, CHTYPE_SATELLITE, 0, "CS8"},  /* ND8：
-                                          * 055ch：ショップ チャンネル
-                                          * 335ch：キッズステーションHD */
-    {  16, CHTYPE_SATELLITE, 0, "CS10"}, /* ND10：
-                                          * 228ch：ザ・シネマ
-                                          * 800ch：スカチャンHD800
-                                          * 801ch：スカチャン801
-                                          * 802ch：スカチャン802 */
-    {  17, CHTYPE_SATELLITE, 0, "CS12"}, /* ND12：
-                                          * 260ch：ザ・ゴルフ・チャンネル
-                                          * 303ch：テレ朝チャンネル
-                                          * 323ch：MTV 324ch：大人の音楽専門TV◆ミュージック・エア
-                                          * 352ch：朝日ニュースター
-                                          * 353ch：BBCワールドニュース
-                                          * 354ch：CNNj
-                                          * 110ch：ワンテンポータル */
-    {  18, CHTYPE_SATELLITE, 0, "CS14"}, /* ND14：
-                                          * 251ch：J sports 1
-                                          * 252ch：J sports 2
-                                          * 253ch：J sports Plus
-                                          * 254ch：GAORA */
-    {  19, CHTYPE_SATELLITE, 0, "CS16"}, /* ND16：
-                                          * 305ch：チャンネル銀河
-                                          * 333ch：アニメシアターX(AT-X)
-                                          * 342ch：ヒストリーチャンネル
-                                          * 290ch：TAKARAZUKA SKYSTAGE
-                                          * 803ch：スカチャン803
-                                          * 804ch：スカチャン804 */
-    {  20, CHTYPE_SATELLITE, 0, "CS18"}, /* ND18：
-                                          * 240ch：ムービープラスHD
-                                          * 262ch：ゴルフネットワーク
-                                          * 314ch：LaLa HDHV */
-    {  21, CHTYPE_SATELLITE, 0, "CS20"}, /* ND20：
-                                          * 258ch：フジテレビONE
-                                          * 302ch：フジテレビTWO
-                                          * 332ch：アニマックス
+                                          * 301ch：エンタメ〜テレ
+                                          * 323ch：MTV */
+    {  14, CHTYPE_SATELLITE, 0, "CS6"},  /* ND6：
+                                          * 294ch：ホームドラマチャンネル
+                                          * 324ch：ミュージック・エア
+                                          * 329ch：歌謡ポップスチャンネル
+                                          * 331ch：カートゥーン・ネットワーク
                                           * 340ch：ディスカバリーチャンネル
-                                          * 341ch：アニマルプラネット */
-    {  22, CHTYPE_SATELLITE, 0, "CS22"}, /* ND22：
-                                          * 160ch：C-TBSウェルカムチャンネル
-                                          * 161ch：QVC
-                                          * 185ch：プライム365.TV
-                                          * 293ch：ファミリー劇場
-                                          * 301ch：TBSチャンネル
-                                          * 304ch：ディズニー・チャンネル
+                                          * 341ch：アニマルプラネット
+                                          * 354ch：CNNj
+                                          * 363ch：囲碁・将棋チャンネル */
+    {  15, CHTYPE_SATELLITE, 0, "CS8"},  /* ND8：
+                                          * 055ch：ショップチャンネル
+                                          * 218ch：東映チャンネル
+                                          * 318ch：Mnet
+                                          * 349ch：日テレNEWS24 */
+    {  16, CHTYPE_SATELLITE, 0, "CS10"}, /* ND10：
+                                          * 219ch：衛星劇場
+                                          * 317ch：KBS World
+                                          * 800ch：スポーツライブ＋
+                                          * 801ch：スカチャン1 */
+    {  17, CHTYPE_SATELLITE, 0, "CS12"}, /* ND12：
+                                          * 254ch：GAORA SPORTS
                                           * 325ch：MUSIC ON! TV
-                                          * 351ch：TBSニュースバード
-                                          * 343ch：ナショナルジオグラフィックチャンネル */
+                                          * 330ch：キッズステーション
+                                          * 343ch：ナショナルジオグラフィック */
+    {  18, CHTYPE_SATELLITE, 0, "CS14"}, /* ND14：
+                                          * 342ch：ヒストリーチャンネル
+                                          * 227ch：ザ・シネマ
+                                          * 293ch：ファミリー劇場
+                                          * 310ch：スーパー！ドラマTV */
+    {  19, CHTYPE_SATELLITE, 0, "CS16"}, /* ND16：
+                                          * 290ch：TAKARAZUKA SKY STAGE
+                                          * 311ch：アクションチャンネル
+                                          * 316ch：ミステリーチャンネル
+                                          * 321ch：100%ヒッツ！スペースシャワーTVプラス
+                                          * 333ch：アニメシアターX
+                                          * 353ch：BBCワールドニュース */
+    {  20, CHTYPE_SATELLITE, 0, "CS18"}, /* ND18：
+                                          * 240ch：ムービープラス
+                                          * 262ch：ゴルフネットワーク
+                                          * 305ch：チャンネル銀河
+                                          * 314ch：女性チャンネル LaLa TV */
+    {  21, CHTYPE_SATELLITE, 0, "CS20"}, /* ND20：
+                                          * 307ch：フジテレビONE
+                                          * 308ch：フジテレビTWO
+                                          * 309ch：フジテレビNEXT
+                                          * 322ch：音楽・ライブ! スペースシャワーTV */
+    {  22, CHTYPE_SATELLITE, 0, "CS22"}, /* ND22：
+                                          * 161ch：QVC
+                                          * 297ch：TBSチャンネル2
+                                          * 312ch：FOX
+                                          * 351ch：TBS NEWS */
     {  23, CHTYPE_SATELLITE, 0, "CS24"}, /* ND24：
-                                          * 257ch：日テレG+ HD
-                                          * 291ch：fashiontv
-                                          * 300ch：日テレプラス
-                                          * 315ch：FOXプラス
-                                          * 321ch：MusicJapan TV
-                                          * 350ch：日テレNEWS24 
-                                          * 362ch：旅チャンネル*/
+                                          * 223ch：映画・チャンネルNECO
+                                          * 257ch：日テレジータス
+                                          * 295ch：MONDO TV
+                                          * 300ch：日テレプラス */
     {   0, CHTYPE_GROUND, 0,   "1"}, {   1, CHTYPE_GROUND, 0,   "2"},
     {   2, CHTYPE_GROUND, 0,   "3"}, {   3, CHTYPE_GROUND, 0, "C13"},
     {   4, CHTYPE_GROUND, 0, "C14"}, {   5, CHTYPE_GROUND, 0, "C15"},
