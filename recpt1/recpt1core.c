@@ -209,7 +209,8 @@ show_channels(void)
     fprintf(stderr, "BS13_1: BSフジ\n");
     fprintf(stderr, "BS13_2: 放送大学\n");
     fprintf(stderr, "BS15_0: NHKBS1\n");
-    fprintf(stderr, "BS15_1: スターチャンネル\n");
+    fprintf(stderr, "BS15_1: BS10スターチャンネル\n");
+    fprintf(stderr, "BS15_2: BS10\n");
     fprintf(stderr, "BS19_0: J SPORTS 4\n");
     fprintf(stderr, "BS19_1: J SPORTS 1\n");
     fprintf(stderr, "BS19_2: J SPORTS 2\n");
@@ -219,7 +220,6 @@ show_channels(void)
     fprintf(stderr, "BS21_2: グリーンチャンネル\n");
     fprintf(stderr, "BS23_0: ディズニーch\n");
     fprintf(stderr, "BS23_1: BSよしもと\n");
-    fprintf(stderr, "BS23_2: BSJapanext\n");
     fprintf(stderr, "BS23_3: BS松竹東急\n");
     fprintf(stderr, "C13-C63: CATV Channels\n");
     fprintf(stderr, "CS2-CS24: CS Channels\n");
