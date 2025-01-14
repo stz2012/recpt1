@@ -255,7 +255,8 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   6, CHTYPE_SATELLITE, 1, "181"},  /* 181ch：BSフジ */
     {   7, CHTYPE_SATELLITE, 0, "101"},  /* 101ch：NHKBS1 */
     {   7, CHTYPE_SATELLITE, 0, "102"},  /* 102ch：NHKBS1 */
-    {   7, CHTYPE_SATELLITE, 1, "200"},  /* 200ch：スター・チャンネル */
+    {   7, CHTYPE_SATELLITE, 1, "200"},  /* 200ch：BS10 */
+    {   7, CHTYPE_SATELLITE, 2, "201"},  /* 201ch：BS10スターチャンネル */
     {   9, CHTYPE_SATELLITE, 0, "245"},  /* 245ch：J SPORTS 4 */
     {   9, CHTYPE_SATELLITE, 1, "242"},  /* 242ch：J SPORTS 1 */
     {   9, CHTYPE_SATELLITE, 2, "243"},  /* 243ch：J SPORTS 2 */
@@ -265,8 +266,7 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {  10, CHTYPE_SATELLITE, 2, "234"},  /* 234ch：グリーンチャンネル */
     {  11, CHTYPE_SATELLITE, 0, "256"},  /* 256ch：ディズニーch */
     {  11, CHTYPE_SATELLITE, 1, "265"},  /* 265ch：BSよしもと */
-    {  11, CHTYPE_SATELLITE, 2, "263"},  /* 263ch：BSJapanext */
-    {  11, CHTYPE_SATELLITE, 3, "260"},  /* 260ch：BS松竹東急 */
+    {  11, CHTYPE_SATELLITE, 2, "260"},  /* 260ch：BS松竹東急 */
     {  12, CHTYPE_SATELLITE, 0, "CS2"},  /* ND2：
                                           * 296ch：TBSチャンネル1
                                           * 298ch：テレ朝チャンネル1
