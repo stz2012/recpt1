@@ -204,7 +204,7 @@ show_channels(void)
     fprintf(stderr, "BS05_0: WOWOWライブ\n");
     fprintf(stderr, "BS05_1: WOWOWシネマ\n");
     fprintf(stderr, "BS09_0: BS11イレブン\n");
-    fprintf(stderr, "BS09_2: BS12トゥエルビ\n");
+    fprintf(stderr, "BS09_1: BS12トゥエルビ\n");
     fprintf(stderr, "BS13_0: BS日テレ\n");
     fprintf(stderr, "BS13_1: BSフジ\n");
     fprintf(stderr, "BS13_2: 放送大学\n");
@@ -220,7 +220,7 @@ show_channels(void)
     fprintf(stderr, "BS21_2: グリーンチャンネル\n");
     fprintf(stderr, "BS23_0: ディズニーch\n");
     fprintf(stderr, "BS23_1: BSよしもと\n");
-    fprintf(stderr, "BS23_3: BS松竹東急\n");
+    fprintf(stderr, "BS23_2: BS松竹東急\n");
     fprintf(stderr, "C13-C63: CATV Channels\n");
     fprintf(stderr, "CS2-CS24: CS Channels\n");
 }

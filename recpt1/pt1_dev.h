@@ -247,7 +247,7 @@ ISDB_T_FREQ_CONV_TABLE    isdb_t_conv_table[] = {
     {   2, CHTYPE_SATELLITE, 0, "192"},  /* 192ch：WOWOWライブ */
     {   2, CHTYPE_SATELLITE, 1, "193"},  /* 193ch：WOWOWシネマ */
     {   4, CHTYPE_SATELLITE, 0, "211"},  /* 211ch：BS11イレブン */
-    {   4, CHTYPE_SATELLITE, 2, "222"},  /* 222ch：BS12トゥエルビ */
+    {   4, CHTYPE_SATELLITE, 1, "222"},  /* 222ch：BS12トゥエルビ */
     {   6, CHTYPE_SATELLITE, 2, "231"},  /* 231ch：放送大学ex */
     {   6, CHTYPE_SATELLITE, 2, "232"},  /* 232ch：放送大学on */
     {   6, CHTYPE_SATELLITE, 2, "531"},  /* 531ch：放送大学ラジオ */
